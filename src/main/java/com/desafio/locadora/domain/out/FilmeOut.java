@@ -1,28 +1,21 @@
-package com.desafio.locadora.entity;
+package com.desafio.locadora.domain.out;
+
 
 import com.desafio.locadora.entity.enums.LocacaoEnum;
-import springfox.documentation.annotations.ApiIgnore;
+import io.swagger.annotations.ApiModelProperty;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 
-@ApiIgnore
-@Entity
-public class Filme {
-    @Id
-    @GeneratedValue
-    @Column(name = "id", nullable = false)
+public class FilmeOut {
+    @ApiModelProperty(notes = "ID auto-gerado para identificação da entidade", allowEmptyValue = true)
     private Long id;
 
-    @Column(name = "nome", nullable = false)
+    @ApiModelProperty(notes = "Nome do filme", allowEmptyValue = true)
     private String nome;
 
-    @Column(name = "diretor", nullable = false)
+    @ApiModelProperty(notes = "Nome do diretor do filme", allowEmptyValue = true)
     private String diretor;
 
-    @Column(name = "locado", nullable = false)
+    @ApiModelProperty(notes = "Identificador de status locação", allowEmptyValue = true)
     private LocacaoEnum locado;
 
     public Long getId() {
@@ -57,4 +50,3 @@ public class Filme {
         this.locado = locado;
     }
 }
-

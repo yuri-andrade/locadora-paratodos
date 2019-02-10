@@ -1,5 +1,6 @@
 package com.desafio.locadora.controller;
 
+import com.desafio.locadora.domain.out.FilmeOut;
 import com.desafio.locadora.entity.Filme;
 import com.desafio.locadora.service.FilmeService;
 import io.swagger.annotations.ApiOperation;
@@ -30,7 +31,7 @@ public class FilmeController {
     })
     @GetMapping(value = "search")
     public ResponseEntity<?> searchFilmByName(@RequestParam String nome) {
-        List<Filme> filmeList = filmeService.findByNome(nome);
+        List<FilmeOut> filmeList = filmeService.findByNome(nome);
         return new ResponseEntity<>(filmeList, HttpStatus.OK);
     }
 
@@ -39,37 +40,13 @@ public class FilmeController {
             @ApiResponse(code = 200, message = "Filmes localizados"),
             @ApiResponse(code = 500, message = "Erro interno"),
     })
-    @GetMapping(value = "list")
+    @GetMapping()
     public ResponseEntity<?> availableList() {
-        List<Filme> lista = filmeService.findAllAvailable();
+        List<FilmeOut> lista = filmeService.findAllAvailable();
         return new ResponseEntity<>(lista, HttpStatus.OK);
     }
 
-    @ApiOperation(value = "Aluga o filme conforme o id", response = Filme.class)
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Filme alugado com sucesso"),
-            @ApiResponse(code = 500, message = "Erro interno"),
-            @ApiResponse(code = 400, message = "Filme já encontra-se alugado"),
-            @ApiResponse(code = 404, message = "Filme não encontrado para o id informado")
 
-    })
-    @PutMapping(value = "rent")
-    public ResponseEntity<Filme> rentFilm(@RequestParam Long idFilme) {
-        Filme filme = filmeService.rentFilm(idFilme);
-        return new ResponseEntity<>(filme, HttpStatus.OK);
-    }
 
-    @ApiOperation(value = "Retorna o filme conforme o id", response = Filme.class)
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Filme retornado com sucesso"),
-            @ApiResponse(code = 500, message = "Erro interno"),
-            @ApiResponse(code = 400, message = "Filme já encontra-se retornado"),
-            @ApiResponse(code = 404, message = "Filme não encontrado para o id informado")
 
-    })
-    @PutMapping(value = "return")
-    public ResponseEntity<Filme> returnFilm(@RequestParam Long idFilme) {
-        Filme filme = filmeService.returnFilm(idFilme);
-        return new ResponseEntity<>(filme, HttpStatus.OK);
-    }
 }
