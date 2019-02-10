@@ -2,8 +2,6 @@ package com.desafio.locadora.controller;
 
 
 import com.desafio.locadora.domain.out.FilmeOut;
-import com.desafio.locadora.entity.Filme;
-import com.desafio.locadora.service.FilmeService;
 import com.desafio.locadora.service.LocacaoService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -21,7 +19,7 @@ public class LocacaoController {
         this.locacaoService = locacaoService;
     }
 
-    @ApiOperation(value = "Aluga o filme conforme o id", response = Filme.class)
+    @ApiOperation(value = "Aluga o filme conforme o id", response = FilmeOut.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Filme alugado com sucesso"),
             @ApiResponse(code = 500, message = "Erro interno"),
@@ -35,15 +33,14 @@ public class LocacaoController {
         return new ResponseEntity<>(filmeOut, HttpStatus.OK);
     }
 
-    @ApiOperation(value = "Retorna o filme conforme o id", response = Filme.class)
+    @ApiOperation(value = "Retorna o filme conforme o id", response = FilmeOut.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Filme retornado com sucesso"),
             @ApiResponse(code = 500, message = "Erro interno"),
-            @ApiResponse(code = 400, message = "Filme já encontra-se retornado"),
-            @ApiResponse(code = 404, message = "Filme não encontrado para o id informado")
+            @ApiResponse(code = 404, message = "Locação em aberto com o filme de id informado não encontrada.")
 
     })
-    @DeleteMapping()
+    @PutMapping()
     public ResponseEntity<FilmeOut> returnFilm(@RequestParam Long idFilme) {
         FilmeOut filmeOut = locacaoService.returnFilm(idFilme);
         return new ResponseEntity<>(filmeOut, HttpStatus.OK);

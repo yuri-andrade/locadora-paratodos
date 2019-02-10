@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.time.LocalDateTime;
 
 @Entity
 public class Locacao {
@@ -18,9 +19,18 @@ public class Locacao {
     @Column(name = "idUsuario", nullable = false)
     private Long idUsuario;
 
-    public Locacao(Long idFilme, Long idUsuario) {
+    @Column(name = "emprestimo", nullable = false)
+    private LocalDateTime emprestimo;
+
+    @Column(name = "retorno", nullable = true)
+    private LocalDateTime retorno;
+
+
+
+    public Locacao(Long idFilme, Long idUsuario, LocalDateTime emprestimo) {
         this.idFilme = idFilme;
         this.idUsuario = idUsuario;
+        this.emprestimo = emprestimo;
     }
 
     public Locacao() {
@@ -48,5 +58,21 @@ public class Locacao {
 
     public void setIdUsuario(Long idUsuario) {
         this.idUsuario = idUsuario;
+    }
+
+    public LocalDateTime getEmprestimo() {
+        return emprestimo;
+    }
+
+    public void setEmprestimo(LocalDateTime emprestimo) {
+        this.emprestimo = emprestimo;
+    }
+
+    public LocalDateTime getRetorno() {
+        return retorno;
+    }
+
+    public void setRetorno(LocalDateTime retorno) {
+        this.retorno = retorno;
     }
 }

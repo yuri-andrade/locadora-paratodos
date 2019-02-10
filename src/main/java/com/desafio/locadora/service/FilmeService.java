@@ -9,6 +9,7 @@ import com.desafio.locadora.repository.FilmeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,7 +33,7 @@ public class FilmeService {
     }
 
     public List<FilmeOut> findAllAvailable() {
-        return filmeToFilmeOutConverter.convertList(filmeRepository.findAll().stream().filter(filme -> LocacaoEnum.NAO.equals(filme.getLocado()))
+        return filmeToFilmeOutConverter.convertList(filmeRepository.findAll().stream().filter(this::isAvailable)
                 .collect(Collectors.toList()));
     }
 
@@ -40,4 +41,8 @@ public class FilmeService {
         filmeRepository.save(filme);
     }
 
+
+    public Boolean isAvailable(Filme filme) {
+        return Objects.equals(LocacaoEnum.NAO, filme.getLocado());
+    }
 }
