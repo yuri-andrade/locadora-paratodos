@@ -1,7 +1,7 @@
 package com.desafio.locadora.service;
 
-import com.desafio.locadora.converter.FilmeToFilmeOutConverter;
-import com.desafio.locadora.domain.out.FilmeOut;
+import com.desafio.locadora.converter.LocacaoToLocacaoOutConverter;
+import com.desafio.locadora.domain.out.LocacaoOut;
 import com.desafio.locadora.entity.Filme;
 import com.desafio.locadora.entity.Locacao;
 import com.desafio.locadora.entity.Usuario;
@@ -19,13 +19,13 @@ import java.util.Objects;
 public class LocacaoService {
     private final LocacaoRepository locacaoRepository;
     private final FilmeService filmeService;
-    private final FilmeToFilmeOutConverter filmeToFilmeOutConverter;
+    private final LocacaoToLocacaoOutConverter locacaoToLocacaoOutConverter;
 
     public LocacaoService(LocacaoRepository locacaoRepository, FilmeService filmeService,
-                          FilmeToFilmeOutConverter filmeToFilmeOutConverter) {
+            LocacaoToLocacaoOutConverter locacaoToLocacaoOutConverter) {
         this.locacaoRepository = locacaoRepository;
         this.filmeService = filmeService;
-        this.filmeToFilmeOutConverter = filmeToFilmeOutConverter;
+        this.locacaoToLocacaoOutConverter = locacaoToLocacaoOutConverter;
     }
 
     public Locacao findByidFilme(Long idFilme) {
@@ -37,7 +37,7 @@ public class LocacaoService {
                 .format("Locação em aberto com o filme de id '%d' não encontrada.", idFilme)));
     }
 
-    public FilmeOut rentFilm(Long idFilme) {
+    public LocacaoOut rentFilm(Long idFilme) {
         Usuario usuario = new Usuario();
         usuario.setId(123);
         Filme filme = filmeService.findById(idFilme);
@@ -46,11 +46,11 @@ public class LocacaoService {
             filmeService.save(filme);
             Locacao locacao = new Locacao(idFilme, usuario.getId(), LocalDateTime.now());
             locacaoRepository.save(locacao);
-            return filmeToFilmeOutConverter.convert(filme);
+            return locacaoToLocacaoOutConverter.convert(locacao);
         } else throw new BusinessException(String.format("O Filme %d, %s já está alugado", idFilme, filme.getNome()));
     }
 
-    public FilmeOut returnFilm(Long idFilme) {
+    public LocacaoOut returnFilm(Long idFilme) {
         Filme filme = filmeService.findById(idFilme);
         Locacao locacao = findByidFilme(idFilme);
         if (!filmeService.isAvailable(filme)) {
@@ -58,7 +58,7 @@ public class LocacaoService {
             filmeService.save(filme);
             locacao.setRetorno(LocalDateTime.now());
             locacaoRepository.save(locacao);
-            return filmeToFilmeOutConverter.convert(filme);
+            return locacaoToLocacaoOutConverter.convert(locacao);
         } else throw new BusinessException(String.format("O Filme %d, %s não está alugado", idFilme, filme.getNome()));
     }
 }

@@ -6,9 +6,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Component
 public class FilmeToFilmeOutConverter implements Converter<Filme, FilmeOut> {
@@ -28,10 +28,9 @@ public class FilmeToFilmeOutConverter implements Converter<Filme, FilmeOut> {
     }
 
     public List<FilmeOut> convertList(List<Filme> filmes) {
-        List<FilmeOut> filmeOut = new ArrayList<>();
-        for (Filme f : filmes) {
-            filmeOut.add(convert(f));
+        if (Objects.isNull(filmes)) {
+            throw new IllegalArgumentException("Lista de Filme não pode ser convertido em Lista de FilmeOut");
         }
-        return filmeOut;
+        return filmes.parallelStream().map(this::convert).collect(Collectors.toList());
     }
 }

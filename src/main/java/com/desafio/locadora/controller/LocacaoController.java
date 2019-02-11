@@ -1,14 +1,18 @@
 package com.desafio.locadora.controller;
 
 
-import com.desafio.locadora.domain.out.FilmeOut;
+import com.desafio.locadora.domain.out.LocacaoOut;
 import com.desafio.locadora.service.LocacaoService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/locacao")
@@ -19,7 +23,7 @@ public class LocacaoController {
         this.locacaoService = locacaoService;
     }
 
-    @ApiOperation(value = "Aluga o filme conforme o id", response = FilmeOut.class)
+    @ApiOperation(value = "Aluga o filme conforme o id", response = LocacaoOut.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Filme alugado com sucesso"),
             @ApiResponse(code = 500, message = "Erro interno"),
@@ -28,12 +32,12 @@ public class LocacaoController {
 
     })
     @PostMapping()
-    public ResponseEntity<FilmeOut> rentFilm(@RequestParam Long idFilme) {
-        FilmeOut filmeOut = locacaoService.rentFilm(idFilme);
-        return new ResponseEntity<>(filmeOut, HttpStatus.OK);
+    public ResponseEntity<LocacaoOut> rentFilm(@RequestParam Long idFilme) {
+        LocacaoOut locacaoOut = locacaoService.rentFilm(idFilme);
+        return new ResponseEntity<>(locacaoOut, HttpStatus.OK);
     }
 
-    @ApiOperation(value = "Retorna o filme conforme o id", response = FilmeOut.class)
+    @ApiOperation(value = "Retorna o filme conforme o id", response = LocacaoOut.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Filme retornado com sucesso"),
             @ApiResponse(code = 500, message = "Erro interno"),
@@ -41,8 +45,8 @@ public class LocacaoController {
 
     })
     @PutMapping()
-    public ResponseEntity<FilmeOut> returnFilm(@RequestParam Long idFilme) {
-        FilmeOut filmeOut = locacaoService.returnFilm(idFilme);
-        return new ResponseEntity<>(filmeOut, HttpStatus.OK);
+    public ResponseEntity<LocacaoOut> returnFilm(@RequestParam Long idFilme) {
+        LocacaoOut locacaoOut = locacaoService.returnFilm(idFilme);
+        return new ResponseEntity<>(locacaoOut, HttpStatus.OK);
     }
 }
