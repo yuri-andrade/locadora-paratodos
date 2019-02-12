@@ -1,24 +1,19 @@
-package com.desafio.locadora.entity;
+package com.desafio.locadora.domain.out;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 
-@Entity
-public class Usuario {
-    @Id
-    @GeneratedValue
-    @Column(name = "id", nullable = false)
+import io.swagger.annotations.ApiModelProperty;
+
+public class UsuarioOut {
+    @ApiModelProperty(notes = "ID auto-gerado para identificação da entidade", allowEmptyValue = true)
     private Long id;
 
-    @Column(name = "username", nullable = false)
+    @ApiModelProperty(notes = "Username utilizado para logar aplicação")
     private String username;
 
-    @Column(name = "nome", nullable = false)
+    @ApiModelProperty(notes = "Nome do usuário")
     private String nome;
 
-    @Column(name = "password", nullable = false)
+    @ApiModelProperty(notes = "Senha utilizada para logar na aplicação")
     private String password;
 
     public Long getId() {

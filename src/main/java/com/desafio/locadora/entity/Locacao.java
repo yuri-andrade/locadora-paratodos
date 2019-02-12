@@ -16,8 +16,8 @@ public class Locacao {
     @Column(name = "idFilme", nullable = false)
     private Long idFilme;
 
-    @Column(name = "idUsuario", nullable = false)
-    private Long idUsuario;
+    @Column(name = "usuario", nullable = false)
+    private String usuario;
 
     @Column(name = "emprestimo", nullable = false)
     private LocalDateTime emprestimo;
@@ -26,10 +26,9 @@ public class Locacao {
     private LocalDateTime retorno;
 
 
-
-    public Locacao(Long idFilme, Long idUsuario, LocalDateTime emprestimo) {
+    public Locacao(Long idFilme, String usuario, LocalDateTime emprestimo) {
         this.idFilme = idFilme;
-        this.idUsuario = idUsuario;
+        this.usuario = usuario;
         this.emprestimo = emprestimo;
     }
 
@@ -52,12 +51,12 @@ public class Locacao {
         this.idFilme = idFilme;
     }
 
-    public Long getIdUsuario() {
-        return idUsuario;
+    public String getUsuario() {
+        return usuario;
     }
 
-    public void setIdUsuario(Long idUsuario) {
-        this.idUsuario = idUsuario;
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
     }
 
     public LocalDateTime getEmprestimo() {

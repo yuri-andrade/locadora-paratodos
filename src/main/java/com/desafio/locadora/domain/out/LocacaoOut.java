@@ -6,16 +6,16 @@ import java.time.LocalDateTime;
 
 public class LocacaoOut {
 
-    @ApiModelProperty(notes = "ID auto-gerado para identificação da entidade", allowEmptyValue = true)
+    @ApiModelProperty(notes = "ID auto-gerado para identificação da entidade")
     private Long id;
 
-    @ApiModelProperty(notes = "ID de identificação do Filme alugado", allowEmptyValue = true)
+    @ApiModelProperty(notes = "ID de identificação do Filme alugado")
     private Long idFilme;
 
-    @ApiModelProperty(notes = "ID de identificação da Usuario da locação", allowEmptyValue = true)
-    private Long idUsuario;
+    @ApiModelProperty(notes = "Nome do Usuario da locação")
+    private String usuario;
 
-    @ApiModelProperty(notes = "Data de início da locação", allowEmptyValue = true)
+    @ApiModelProperty(notes = "Data de início da locação")
     private LocalDateTime emprestimo;
 
     @ApiModelProperty(notes = "Data de final da locação", allowEmptyValue = true)
@@ -37,12 +37,12 @@ public class LocacaoOut {
         this.idFilme = idFilme;
     }
 
-    public Long getIdUsuario() {
-        return idUsuario;
+    public String getUsuario() {
+        return usuario;
     }
 
-    public void setIdUsuario(Long idUsuario) {
-        this.idUsuario = idUsuario;
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
     }
 
     public LocalDateTime getEmprestimo() {

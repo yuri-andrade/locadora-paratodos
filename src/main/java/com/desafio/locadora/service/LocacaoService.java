@@ -4,11 +4,12 @@ import com.desafio.locadora.converter.LocacaoToLocacaoOutConverter;
 import com.desafio.locadora.domain.out.LocacaoOut;
 import com.desafio.locadora.entity.Filme;
 import com.desafio.locadora.entity.Locacao;
-import com.desafio.locadora.entity.Usuario;
 import com.desafio.locadora.entity.enums.LocacaoEnum;
 import com.desafio.locadora.exception.BusinessException;
 import com.desafio.locadora.exception.ResourceNotFoundException;
 import com.desafio.locadora.repository.LocacaoRepository;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -22,7 +23,7 @@ public class LocacaoService {
     private final LocacaoToLocacaoOutConverter locacaoToLocacaoOutConverter;
 
     public LocacaoService(LocacaoRepository locacaoRepository, FilmeService filmeService,
-            LocacaoToLocacaoOutConverter locacaoToLocacaoOutConverter) {
+                          LocacaoToLocacaoOutConverter locacaoToLocacaoOutConverter) {
         this.locacaoRepository = locacaoRepository;
         this.filmeService = filmeService;
         this.locacaoToLocacaoOutConverter = locacaoToLocacaoOutConverter;
@@ -38,13 +39,14 @@ public class LocacaoService {
     }
 
     public LocacaoOut rentFilm(Long idFilme) {
-        Usuario usuario = new Usuario();
-        usuario.setId(123);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUserName = Objects.nonNull(authentication.getName()) ? authentication.getName() : null;
+
         Filme filme = filmeService.findById(idFilme);
         if (filmeService.isAvailable(filme)) {
             filme.setLocado(LocacaoEnum.SIM);
             filmeService.save(filme);
-            Locacao locacao = new Locacao(idFilme, usuario.getId(), LocalDateTime.now());
+            Locacao locacao = new Locacao(idFilme, currentUserName, LocalDateTime.now());
             locacaoRepository.save(locacao);
             return locacaoToLocacaoOutConverter.convert(locacao);
         } else throw new BusinessException(String.format("O Filme %d, %s já está alugado", idFilme, filme.getNome()));

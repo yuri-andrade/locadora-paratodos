@@ -6,13 +6,13 @@ import io.swagger.annotations.ApiModelProperty;
 
 
 public class FilmeOut {
-    @ApiModelProperty(notes = "ID auto-gerado para identificação da entidade", allowEmptyValue = true)
+    @ApiModelProperty(notes = "ID auto-gerado para identificação da entidade")
     private Long id;
 
-    @ApiModelProperty(notes = "Nome do filme", allowEmptyValue = true)
+    @ApiModelProperty(notes = "Nome do filme")
     private String nome;
 
-    @ApiModelProperty(notes = "Nome do diretor do filme", allowEmptyValue = true)
+    @ApiModelProperty(notes = "Nome do diretor do filme")
     private String diretor;
 
     @ApiModelProperty(notes = "Identificador de status locação", allowEmptyValue = true)
