@@ -1,12 +1,14 @@
 [![Build Status](https://travis-ci.com/yuri-andrade/locadora-rest.svg?branch=master)](https://travis-ci.com/yuri-andrade/locadora-rest)
-<h3>Acesso ao banco em memória H2 </h3>
+##Acesso ao banco em memória H2
 http://localhost:8080/h2-console/
 
-<h3>Acesso a documentação da API</h3>
+##Acesso a documentação da API
 http://localhost:8080/swagger-ui.html
----
-O desafio:
+
+####O desafio:
+
 <br>
+
 Você irá criar um sistema de uma locadora de filmes. 
 - [ ] O sistema deve permitir a criação de usuários (clientes), 
 logon e logoff de um usuário, 
@@ -20,3 +22,4 @@ logon e logoff de um usuário,
 exibição) e uma password.
 - [x] O sistema pode ser acessado concorrentemente por múltiplos usuários, que
 competirão pela locação dos filmes.
+
