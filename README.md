@@ -1,7 +1,7 @@
-[![Build Status](https://travis-ci.com/yuri-andrade/locadora-rest.svg?branch=master)](https://travis-ci.com/yuri-andrade/locadora-rest)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=yuri-andrade_locadora-rest&metric=alert_status)](https://sonarcloud.io/dashboard?id=yuri-andrade_locadora-rest)
-[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=yuri-andrade_locadora-rest&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=yuri-andrade_locadora-rest)
-<br>
+[![Build Status](https://travis-ci.com/yuri-andrade/locadora-paratodos.svg?branch=master)](https://travis-ci.com/yuri-andrade/locadora-paratodos)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=yuri-andrade_locadora-paratodos&metric=alert_status)](https://sonarcloud.io/dashboard?id=yuri-andrade_locadora-paratodos)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=yuri-andrade_locadora-paratodos&metric=sqale_rating)](https://sonarcloud.io/dashboard?id=yuri-andrade_locadora-paratodos)
+
 <h3>Acesso ao banco em memória H2</h3>
 
 http://localhost:8080/h2-console/
