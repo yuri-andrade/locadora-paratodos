@@ -1,5 +1,6 @@
 package com.desafio.locadora.controller;
 
+
 import com.desafio.locadora.domain.out.LocacaoOut;
 
 import com.desafio.locadora.service.LocacaoService;
@@ -23,7 +24,7 @@ public class LocacaoController {
         this.locacaoService = locacaoService;
     }
 
-    @ApiOperation(value = "Retorna o filme conforme o id", response = LocacaoOut.class)
+    @ApiOperation(value = "Encerra uma locação conforme o id do filme informado", response = LocacaoOut.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Locação encerrada com sucesso"),
             @ApiResponse(code = 500, message = "Erro interno"),
@@ -36,6 +37,7 @@ public class LocacaoController {
         return new ResponseEntity<>(locacaoOut, HttpStatus.OK);
     }
 
+    @ApiOperation(value = "Inicia uma locação com o Filme de nome informado", response = LocacaoOut.class)
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Locação criada com sucesso"),
             @ApiResponse(code = 500, message = "Erro interno"),

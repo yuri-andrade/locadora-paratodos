@@ -27,14 +27,14 @@ public class FilmeService {
 
     public List<Filme> findByNome(String nome) {
         return filmeRepository.findByNome(nome)
-                .orElseThrow(() -> new ResourceNotFoundException(String.format("Filme "
-                        + "com o nome '%s' não encontrado.", nome)));
+                .orElseThrow(() -> new ResourceNotFoundException(String
+                        .format("Filme com o nome '%s' não encontrado.", nome)));
     }
 
     public Filme findById(Long id) {
         return filmeRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(String.format("Filme com "
-                        + "o id %d não encontrado.", id)));
+                .orElseThrow(() -> new ResourceNotFoundException(String
+                        .format("Filme com o id %d não encontrado.", id)));
     }
 
     public Set<FilmeOut> findAllAvailable() {
