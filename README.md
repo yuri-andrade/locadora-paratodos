@@ -29,13 +29,13 @@ competirão pela locação dos filmes.
 <h4> Autenticação: </h4>
 A Autenticação implementada utilizando OAuth2.
 
-Postman Authorization conf:
+<h4>Postman Authorization conf: </h4>
 
-Type OAuth 2.0
-Grant Type
-Password Credentials: Password Credentials
+- Type OAuth 2.0
 
-Access Token URL: http://localhost:8080/oauth/token
+- Grant Type: Password Credentials
+
+- Access Token URL: http://localhost:8080/oauth/token
 
 - Username: admin
 - Password: admin
