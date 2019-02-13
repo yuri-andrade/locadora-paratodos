@@ -1,6 +1,6 @@
 package com.desafio.locadora.service;
 
-import com.desafio.locadora.converter.UsuarioToUsuarioOut;
+import com.desafio.locadora.converter.UsuarioToUsuarioOutConverter;
 import com.desafio.locadora.domain.out.UsuarioOut;
 import com.desafio.locadora.entity.Usuario;
 import com.desafio.locadora.repository.UsuarioRepository;
@@ -13,11 +13,11 @@ import java.util.List;
 @Service
 public class UsuarioService implements UserDetailsService {
     private final UsuarioRepository usuarioRepository;
-    private final UsuarioToUsuarioOut usuarioToUsuarioOut;
+    private final UsuarioToUsuarioOutConverter usuarioToUsuarioOutConverter;
 
-    public UsuarioService(UsuarioRepository usuarioRepository, UsuarioToUsuarioOut usuarioToUsuarioOut) {
+    public UsuarioService(UsuarioRepository usuarioRepository, UsuarioToUsuarioOutConverter usuarioToUsuarioOutConverter) {
         this.usuarioRepository = usuarioRepository;
-        this.usuarioToUsuarioOut = usuarioToUsuarioOut;
+        this.usuarioToUsuarioOutConverter = usuarioToUsuarioOutConverter;
     }
 
     @Override
@@ -31,6 +31,6 @@ public class UsuarioService implements UserDetailsService {
 
     public UsuarioOut save(Usuario usuario) {
         usuarioRepository.save(usuario);
-        return usuarioToUsuarioOut.convert(usuario);
+        return usuarioToUsuarioOutConverter.convert(usuario);
     }
 }

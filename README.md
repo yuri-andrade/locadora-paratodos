@@ -37,14 +37,14 @@ Password Credentials: Password Credentials
 
 Access Token URL: http://localhost:8080/oauth/token
 
-Username: admin
-Password: admin
+- Username: admin
+- Password: admin
 
-Client ID: desafio
-Client Secret: desafio
-Scope: password
+- Client ID: desafio
+- Client Secret: desafio
+- Scope: password
 
-Client Authentication: Send as Basic Auth header
+- Client Authentication: Send as Basic Auth header
 
 <h4> Banco de dados: </h4>
 Banco de dados utilizado foi o H2, para facilitar o processo de desenvolvimento, os registros iniciais de filmes já são importados automaticamente no start da aplicação.

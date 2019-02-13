@@ -52,9 +52,10 @@ public class FilmeService {
         if (isAvailable(filme)) {
             filme.setLocado(LocacaoEnum.SIM);
             filmeRepository.save(filme);
-        } else
+        } else {
             throw new BusinessException(String.format("O Filme %d, %s já está alugado",
                     filme.getId(), filme.getNome()));
+        }
     }
 
     public void returnFilm(Long idFilme) {
@@ -62,7 +63,9 @@ public class FilmeService {
         if (!isAvailable(filme)) {
             filme.setLocado(LocacaoEnum.NAO);
             filmeRepository.save(filme);
-        } else throw new BusinessException(String.format("O Filme %d, %s não está alugado",
-                idFilme, filme.getNome()));
+        } else {
+            throw new BusinessException(String.format("O Filme %d, %s não está alugado",
+                    idFilme, filme.getNome()));
+        }
     }
 }

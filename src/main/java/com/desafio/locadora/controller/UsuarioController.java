@@ -1,6 +1,6 @@
 package com.desafio.locadora.controller;
 
-import com.desafio.locadora.converter.UsuarioInToUsuario;
+import com.desafio.locadora.converter.UsuarioInToUsuarioConverter;
 import com.desafio.locadora.domain.in.UsuarioIn;
 import com.desafio.locadora.domain.out.UsuarioOut;
 import com.desafio.locadora.service.UsuarioService;
@@ -21,12 +21,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class UsuarioController {
     private final UsuarioService usuarioService;
     private final InMemoryUserDetailsManager inMemoryUserDetailsManager;
-    private final UsuarioInToUsuario usuarioInToUsuario;
+    private final UsuarioInToUsuarioConverter usuarioInToUsuarioConverter;
 
-    public UsuarioController(UsuarioService usuarioService, InMemoryUserDetailsManager inMemoryUserDetailsManager, UsuarioInToUsuario usuarioInToUsuario) {
+    public UsuarioController(UsuarioService usuarioService, InMemoryUserDetailsManager inMemoryUserDetailsManager, UsuarioInToUsuarioConverter usuarioInToUsuarioConverter) {
         this.usuarioService = usuarioService;
         this.inMemoryUserDetailsManager = inMemoryUserDetailsManager;
-        this.usuarioInToUsuario = usuarioInToUsuario;
+        this.usuarioInToUsuarioConverter = usuarioInToUsuarioConverter;
     }
 
 
@@ -38,10 +38,10 @@ public class UsuarioController {
     })
     @PostMapping
     public ResponseEntity<UsuarioOut> createUser(@RequestBody UsuarioIn usuarioIn) {
-        UsuarioOut usuarioOut = usuarioService.save(usuarioInToUsuario.convert(usuarioIn));
+        UsuarioOut usuarioOut = usuarioService.save(usuarioInToUsuarioConverter.convert(usuarioIn));
         inMemoryUserDetailsManager.createUser(User.withUsername(usuarioOut.getUsername()).password(usuarioOut.getPassword()).roles("USER").build());
         return new ResponseEntity<>(usuarioOut, HttpStatus.CREATED);
     }
 }
 
-  
+
