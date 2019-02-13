@@ -25,27 +25,27 @@ public class LocacaoController {
 
     @ApiOperation(value = "Aluga o filme conforme o id", response = LocacaoOut.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Filme alugado com sucesso"),
+            @ApiResponse(code = 201, message = "Locação criada com sucesso"),
             @ApiResponse(code = 500, message = "Erro interno"),
             @ApiResponse(code = 400, message = "Filme já encontra-se alugado"),
             @ApiResponse(code = 404, message = "Filme não encontrado para o id informado")
 
     })
     @PostMapping()
-    public ResponseEntity<LocacaoOut> rentFilm(@RequestParam Long idFilme) {
+    public ResponseEntity<LocacaoOut> startLocacao(@RequestParam Long idFilme) {
         LocacaoOut locacaoOut = locacaoService.startLocacao(idFilme);
-        return new ResponseEntity<>(locacaoOut, HttpStatus.OK);
+        return new ResponseEntity<>(locacaoOut, HttpStatus.CREATED);
     }
 
     @ApiOperation(value = "Retorna o filme conforme o id", response = LocacaoOut.class)
     @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Filme retornado com sucesso"),
+            @ApiResponse(code = 200, message = "Locação encerrada com sucesso"),
             @ApiResponse(code = 500, message = "Erro interno"),
             @ApiResponse(code = 404, message = "Locação em aberto com o filme de id informado não encontrada.")
 
     })
     @PutMapping()
-    public ResponseEntity<LocacaoOut> returnFilm(@RequestParam Long idFilme) {
+    public ResponseEntity<LocacaoOut> endLocacao(@RequestParam Long idFilme) {
         LocacaoOut locacaoOut = locacaoService.endLocacao(idFilme);
         return new ResponseEntity<>(locacaoOut, HttpStatus.OK);
     }
