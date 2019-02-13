@@ -6,4 +6,4 @@ addons:
     organization: "yuri-andrade-github"
 script:
 # other script steps might be done before running the actual analysis
-- sonar-scanner
+- mvn sonar:sonar -Dsonar.host.url=https://sonarcloud.io
