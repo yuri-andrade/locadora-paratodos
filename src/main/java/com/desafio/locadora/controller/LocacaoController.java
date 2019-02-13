@@ -33,7 +33,7 @@ public class LocacaoController {
     })
     @PostMapping()
     public ResponseEntity<LocacaoOut> rentFilm(@RequestParam Long idFilme) {
-        LocacaoOut locacaoOut = locacaoService.rentFilm(idFilme);
+        LocacaoOut locacaoOut = locacaoService.startLocacao(idFilme);
         return new ResponseEntity<>(locacaoOut, HttpStatus.OK);
     }
 
@@ -46,7 +46,7 @@ public class LocacaoController {
     })
     @PutMapping()
     public ResponseEntity<LocacaoOut> returnFilm(@RequestParam Long idFilme) {
-        LocacaoOut locacaoOut = locacaoService.returnFilm(idFilme);
+        LocacaoOut locacaoOut = locacaoService.endLocacao(idFilme);
         return new ResponseEntity<>(locacaoOut, HttpStatus.OK);
     }
 }

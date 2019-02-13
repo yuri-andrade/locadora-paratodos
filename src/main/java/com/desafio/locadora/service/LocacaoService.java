@@ -2,10 +2,7 @@ package com.desafio.locadora.service;
 
 import com.desafio.locadora.converter.LocacaoToLocacaoOutConverter;
 import com.desafio.locadora.domain.out.LocacaoOut;
-import com.desafio.locadora.entity.Filme;
 import com.desafio.locadora.entity.Locacao;
-import com.desafio.locadora.entity.enums.LocacaoEnum;
-import com.desafio.locadora.exception.BusinessException;
 import com.desafio.locadora.exception.ResourceNotFoundException;
 import com.desafio.locadora.repository.LocacaoRepository;
 import org.springframework.security.core.Authentication;
@@ -38,29 +35,21 @@ public class LocacaoService {
                 .format("Locação em aberto com o filme de id '%d' não encontrada.", idFilme)));
     }
 
-    public LocacaoOut rentFilm(Long idFilme) {
+    public LocacaoOut startLocacao(Long idFilme) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUserName = Objects.nonNull(authentication.getName()) ? authentication.getName() : null;
 
-        Filme filme = filmeService.findById(idFilme);
-        if (filmeService.isAvailable(filme)) {
-            filme.setLocado(LocacaoEnum.SIM);
-            filmeService.save(filme);
-            Locacao locacao = new Locacao(idFilme, currentUserName, LocalDateTime.now());
-            locacaoRepository.save(locacao);
-            return locacaoToLocacaoOutConverter.convert(locacao);
-        } else throw new BusinessException(String.format("O Filme %d, %s já está alugado", idFilme, filme.getNome()));
+        filmeService.rentFilm(idFilme);
+        Locacao locacao = new Locacao(idFilme, currentUserName, LocalDateTime.now());
+        locacaoRepository.save(locacao);
+        return locacaoToLocacaoOutConverter.convert(locacao);
     }
 
-    public LocacaoOut returnFilm(Long idFilme) {
-        Filme filme = filmeService.findById(idFilme);
+    public LocacaoOut endLocacao(Long idFilme) {
         Locacao locacao = findByidFilme(idFilme);
-        if (!filmeService.isAvailable(filme)) {
-            filme.setLocado(LocacaoEnum.NAO);
-            filmeService.save(filme);
-            locacao.setRetorno(LocalDateTime.now());
-            locacaoRepository.save(locacao);
-            return locacaoToLocacaoOutConverter.convert(locacao);
-        } else throw new BusinessException(String.format("O Filme %d, %s não está alugado", idFilme, filme.getNome()));
+        filmeService.returnFilm(idFilme);
+        locacao.setRetorno(LocalDateTime.now());
+        locacaoRepository.save(locacao);
+        return locacaoToLocacaoOutConverter.convert(locacao);
     }
 }

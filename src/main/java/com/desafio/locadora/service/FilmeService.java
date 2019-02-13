@@ -4,6 +4,7 @@ import com.desafio.locadora.converter.FilmeToFilmeOutConverter;
 import com.desafio.locadora.domain.out.FilmeOut;
 import com.desafio.locadora.entity.Filme;
 import com.desafio.locadora.entity.enums.LocacaoEnum;
+import com.desafio.locadora.exception.BusinessException;
 import com.desafio.locadora.exception.ResourceNotFoundException;
 import com.desafio.locadora.repository.FilmeRepository;
 import org.springframework.stereotype.Service;
@@ -44,5 +45,24 @@ public class FilmeService {
 
     public Boolean isAvailable(Filme filme) {
         return Objects.equals(LocacaoEnum.NAO, filme.getLocado());
+    }
+
+    public void rentFilm(Long idFilme) {
+        Filme filme = findById(idFilme);
+        if (isAvailable(filme)) {
+            filme.setLocado(LocacaoEnum.SIM);
+            filmeRepository.save(filme);
+        } else
+            throw new BusinessException(String.format("O Filme %d, %s já está alugado",
+                    filme.getId(), filme.getNome()));
+    }
+
+    public void returnFilm(Long idFilme) {
+        Filme filme = findById(idFilme);
+        if (!isAvailable(filme)) {
+            filme.setLocado(LocacaoEnum.NAO);
+            filmeRepository.save(filme);
+        } else throw new BusinessException(String.format("O Filme %d, %s não está alugado",
+                idFilme, filme.getNome()));
     }
 }
