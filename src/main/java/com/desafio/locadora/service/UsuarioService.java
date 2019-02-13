@@ -15,7 +15,8 @@ public class UsuarioService implements UserDetailsService {
     private final UsuarioRepository usuarioRepository;
     private final UsuarioToUsuarioOutConverter usuarioToUsuarioOutConverter;
 
-    public UsuarioService(UsuarioRepository usuarioRepository, UsuarioToUsuarioOutConverter usuarioToUsuarioOutConverter) {
+    public UsuarioService(UsuarioRepository usuarioRepository,
+            UsuarioToUsuarioOutConverter usuarioToUsuarioOutConverter) {
         this.usuarioRepository = usuarioRepository;
         this.usuarioToUsuarioOutConverter = usuarioToUsuarioOutConverter;
     }

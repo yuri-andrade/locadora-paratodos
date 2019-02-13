@@ -1,7 +1,7 @@
 package com.desafio.locadora.controller;
 
-
 import com.desafio.locadora.domain.out.LocacaoOut;
+
 import com.desafio.locadora.service.LocacaoService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -23,20 +23,6 @@ public class LocacaoController {
         this.locacaoService = locacaoService;
     }
 
-    @ApiOperation(value = "Aluga o filme conforme o id", response = LocacaoOut.class)
-    @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Locação criada com sucesso"),
-            @ApiResponse(code = 500, message = "Erro interno"),
-            @ApiResponse(code = 400, message = "Filme já encontra-se alugado"),
-            @ApiResponse(code = 404, message = "Filme não encontrado para o id informado")
-
-    })
-    @PostMapping()
-    public ResponseEntity<LocacaoOut> startLocacao(@RequestParam Long idFilme) {
-        LocacaoOut locacaoOut = locacaoService.startLocacao(idFilme);
-        return new ResponseEntity<>(locacaoOut, HttpStatus.CREATED);
-    }
-
     @ApiOperation(value = "Retorna o filme conforme o id", response = LocacaoOut.class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Locação encerrada com sucesso"),
@@ -48,5 +34,18 @@ public class LocacaoController {
     public ResponseEntity<LocacaoOut> endLocacao(@RequestParam Long idFilme) {
         LocacaoOut locacaoOut = locacaoService.endLocacao(idFilme);
         return new ResponseEntity<>(locacaoOut, HttpStatus.OK);
+    }
+
+    @ApiResponses(value = {
+            @ApiResponse(code = 201, message = "Locação criada com sucesso"),
+            @ApiResponse(code = 500, message = "Erro interno"),
+            @ApiResponse(code = 400, message = "Filme já encontra-se alugado"),
+            @ApiResponse(code = 404, message = "Filme não encontrado para o id informado")
+
+    })
+    @PostMapping()
+    public ResponseEntity<LocacaoOut> startLocacao(@RequestParam String nomeFilme) {
+        LocacaoOut locacaoOut = locacaoService.startLocacao(nomeFilme);
+        return new ResponseEntity<>(locacaoOut, HttpStatus.CREATED);
     }
 }

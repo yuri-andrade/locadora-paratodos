@@ -1,6 +1,5 @@
 package com.desafio.locadora.domain.out;
 
-
 import io.swagger.annotations.ApiModelProperty;
 
 public class UsuarioOut {

@@ -1,6 +1,8 @@
 package com.desafio.locadora.controller;
 
+import com.desafio.locadora.converter.FilmeToFilmeOutConverter;
 import com.desafio.locadora.domain.out.FilmeOut;
+import com.desafio.locadora.exception.ResourceNotFoundException;
 import com.desafio.locadora.service.FilmeService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -13,16 +15,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping(value = "/filme")
 public class FilmeController {
     private final FilmeService filmeService;
+    private final FilmeToFilmeOutConverter toFilmeOutConverter;
 
     @Autowired
-    public FilmeController(FilmeService filmeService) {
+    public FilmeController(FilmeService filmeService, FilmeToFilmeOutConverter toFilmeOutConverter) {
         this.filmeService = filmeService;
+        this.toFilmeOutConverter = toFilmeOutConverter;
     }
 
     @ApiOperation(value = "Procura filme pelo nome", response = FilmeOut.class)
@@ -32,9 +36,11 @@ public class FilmeController {
             @ApiResponse(code = 404, message = "Filme não encontrado para o nome informado")
     })
     @GetMapping(value = "search")
-    public ResponseEntity<List<FilmeOut>> searchFilmByName(@RequestParam String nome) {
-        List<FilmeOut> filmeList = filmeService.findByNome(nome);
-        return new ResponseEntity<>(filmeList, HttpStatus.OK);
+    public ResponseEntity<FilmeOut> searchFilmByName(@RequestParam String nome) {
+        FilmeOut filme = toFilmeOutConverter.convert(filmeService.findByNome(nome).stream().findFirst()
+                .orElseThrow(() -> new ResourceNotFoundException(String
+                        .format("Filme com o nome '%s' não encontrado.", nome))));
+        return new ResponseEntity<>(filme, HttpStatus.OK);
     }
 
     @ApiOperation(value = "Exibe lista de filmes disponíveis para locação", response = FilmeOut.class)
@@ -43,8 +49,8 @@ public class FilmeController {
             @ApiResponse(code = 500, message = "Erro interno"),
     })
     @GetMapping()
-    public ResponseEntity<List<FilmeOut>> availableList() {
-        List<FilmeOut> lista = filmeService.findAllAvailable();
+    public ResponseEntity<Set<FilmeOut>> availableList() {
+        Set<FilmeOut> lista = filmeService.findAllAvailable();
         return new ResponseEntity<>(lista, HttpStatus.OK);
     }
 

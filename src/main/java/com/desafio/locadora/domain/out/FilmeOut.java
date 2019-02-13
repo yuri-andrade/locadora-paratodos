@@ -1,30 +1,16 @@
 package com.desafio.locadora.domain.out;
 
-
-import com.desafio.locadora.entity.enums.LocacaoEnum;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.util.Objects;
 
 public class FilmeOut {
-    @ApiModelProperty(notes = "ID auto-gerado para identificação da entidade")
-    private Long id;
 
     @ApiModelProperty(notes = "Nome do filme")
     private String nome;
 
     @ApiModelProperty(notes = "Nome do diretor do filme")
     private String diretor;
-
-    @ApiModelProperty(notes = "Identificador de status locação", allowEmptyValue = true)
-    private LocacaoEnum locado;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getNome() {
         return nome;
@@ -42,11 +28,21 @@ public class FilmeOut {
         this.diretor = diretor;
     }
 
-    public LocacaoEnum getLocado() {
-        return locado;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        FilmeOut filmeOut = (FilmeOut) o;
+        return Objects.equals(nome, filmeOut.nome)
+                && Objects.equals(diretor, filmeOut.diretor);
     }
 
-    public void setLocado(LocacaoEnum locado) {
-        this.locado = locado;
+    @Override
+    public int hashCode() {
+        return Objects.hash(nome, diretor);
     }
 }

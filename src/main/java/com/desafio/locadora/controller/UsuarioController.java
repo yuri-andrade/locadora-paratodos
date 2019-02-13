@@ -23,7 +23,8 @@ public class UsuarioController {
     private final InMemoryUserDetailsManager inMemoryUserDetailsManager;
     private final UsuarioInToUsuarioConverter usuarioInToUsuarioConverter;
 
-    public UsuarioController(UsuarioService usuarioService, InMemoryUserDetailsManager inMemoryUserDetailsManager, UsuarioInToUsuarioConverter usuarioInToUsuarioConverter) {
+    public UsuarioController(UsuarioService usuarioService, InMemoryUserDetailsManager inMemoryUserDetailsManager,
+            UsuarioInToUsuarioConverter usuarioInToUsuarioConverter) {
         this.usuarioService = usuarioService;
         this.inMemoryUserDetailsManager = inMemoryUserDetailsManager;
         this.usuarioInToUsuarioConverter = usuarioInToUsuarioConverter;
@@ -39,7 +40,8 @@ public class UsuarioController {
     @PostMapping
     public ResponseEntity<UsuarioOut> createUser(@RequestBody UsuarioIn usuarioIn) {
         UsuarioOut usuarioOut = usuarioService.save(usuarioInToUsuarioConverter.convert(usuarioIn));
-        inMemoryUserDetailsManager.createUser(User.withUsername(usuarioOut.getUsername()).password(usuarioOut.getPassword()).roles("USER").build());
+        inMemoryUserDetailsManager.createUser(User.withUsername(usuarioOut.getUsername())
+                .password(usuarioOut.getPassword()).roles("USER").build());
         return new ResponseEntity<>(usuarioOut, HttpStatus.CREATED);
     }
 }

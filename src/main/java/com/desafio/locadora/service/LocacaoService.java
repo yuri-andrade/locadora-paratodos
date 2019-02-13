@@ -20,26 +20,26 @@ public class LocacaoService {
     private final LocacaoToLocacaoOutConverter locacaoToLocacaoOutConverter;
 
     public LocacaoService(LocacaoRepository locacaoRepository, FilmeService filmeService,
-                          LocacaoToLocacaoOutConverter locacaoToLocacaoOutConverter) {
+            LocacaoToLocacaoOutConverter locacaoToLocacaoOutConverter) {
         this.locacaoRepository = locacaoRepository;
         this.filmeService = filmeService;
         this.locacaoToLocacaoOutConverter = locacaoToLocacaoOutConverter;
     }
 
     public Locacao findByidFilme(Long idFilme) {
-        List<Locacao> lista = locacaoRepository.findByIdFilme(idFilme).orElseThrow(()
-                -> new ResourceNotFoundException(
-                String.format("Locação com o filme de id '%d' não encontrada.", idFilme)));
-        return lista.stream().filter(locacaos -> Objects.isNull(locacaos.getRetorno())).findAny().orElseThrow(()
-                -> new ResourceNotFoundException(String
-                .format("Locação em aberto com o filme de id '%d' não encontrada.", idFilme)));
+        List<Locacao> lista = locacaoRepository.findByIdFilme(idFilme)
+                .orElseThrow(() -> new ResourceNotFoundException(
+                        String.format("Locação com o filme de id '%d' não encontrada.", idFilme)));
+        return lista.stream().filter(locacaos -> Objects.isNull(locacaos.getRetorno())).findAny()
+                .orElseThrow(() -> new ResourceNotFoundException(String
+                        .format("Locação em aberto com o filme de id '%d' não encontrada.", idFilme)));
     }
 
-    public LocacaoOut startLocacao(Long idFilme) {
+    public LocacaoOut startLocacao(String nomeFilme) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUserName = Objects.nonNull(authentication.getName()) ? authentication.getName() : null;
 
-        filmeService.rentFilm(idFilme);
+        Long idFilme = filmeService.rentFilm(nomeFilme);
         Locacao locacao = new Locacao(idFilme, currentUserName, LocalDateTime.now());
         locacaoRepository.save(locacao);
         return locacaoToLocacaoOutConverter.convert(locacao);

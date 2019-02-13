@@ -25,6 +25,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(inMemoryUserDetailsManager());
     }
 
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        web.ignoring().antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources", "/configuration"
+                + "/security", "/swagger-ui.html", "/webjars/**").antMatchers("/h2", "/h2-console/**");
+    }
+
     @Bean
     public InMemoryUserDetailsManager inMemoryUserDetailsManager() {
         Properties users = new Properties();
@@ -36,12 +42,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
-    }
-
-    @Override
-    public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources", "/configuration"
-                + "/security", "/swagger-ui.html", "/webjars/**").antMatchers("/h2", "/h2-console/**");
     }
 
     @Bean
