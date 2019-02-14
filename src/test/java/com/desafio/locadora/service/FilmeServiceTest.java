@@ -9,8 +9,10 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
+import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import java.util.ArrayList;
@@ -19,13 +21,16 @@ import java.util.List;
 @RunWith(MockitoJUnitRunner.class)
 public class FilmeServiceTest {
 
-    @Mock
+    @Spy
     private FilmeRepository filmeRepository;
 
     @Mock
     private FilmeToFilmeOutConverter filmeToFilmeOutConverter;
 
+    @Spy
+    @InjectMocks
     private FilmeService filmeService;
+
     private Filme filme;
     private String nome = "Se7en";
     private String diretor = "David Fincher";
@@ -33,7 +38,6 @@ public class FilmeServiceTest {
 
     @Before
     public void init() {
-        filmeService = new FilmeService(filmeRepository, filmeToFilmeOutConverter);
         filme = new Filme();
         filme.setId(id);
         filme.setNome(nome);
@@ -74,6 +78,5 @@ public class FilmeServiceTest {
     public void testFindByIdFail() {
         filmeService.findById(2L);
     }
-
 
 }

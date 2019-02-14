@@ -37,7 +37,7 @@ public class LocacaoController {
         return new ResponseEntity<>(locacaoOut, HttpStatus.OK);
     }
 
-    @ApiOperation(value = "Inicia uma locação com o Filme de nome informado", response = LocacaoOut.class)
+    @ApiOperation(value = "Inicia uma locação com o filme de nome informado", response = LocacaoOut.class)
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Locação criada com sucesso"),
             @ApiResponse(code = 500, message = "Erro interno"),

@@ -6,7 +6,7 @@ public class UsuarioOut {
     @ApiModelProperty(notes = "ID auto-gerado para identificação da entidade", allowEmptyValue = true)
     private Long id;
 
-    @ApiModelProperty(notes = "Username utilizado para logar aplicação")
+    @ApiModelProperty(notes = "E-mail utilizado para logar aplicação")
     private String username;
 
     @ApiModelProperty(notes = "Nome do usuário")
