@@ -3,7 +3,7 @@ package com.desafio.locadora.domain.in;
 import io.swagger.annotations.ApiModelProperty;
 
 public class UsuarioIn {
-    @ApiModelProperty(notes = "Username utilizado para logar aplicação")
+    @ApiModelProperty(notes = "E-mail utilizado para logar aplicação")
     private String username;
 
     @ApiModelProperty(notes = "Nome do usuário")

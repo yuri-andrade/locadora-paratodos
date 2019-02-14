@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.Email;
 
 @Entity
 public class Usuario {
@@ -13,6 +14,7 @@ public class Usuario {
     private Long id;
 
     @Column(name = "username", nullable = false)
+    @Email
     private String username;
 
     @Column(name = "nome", nullable = false)
