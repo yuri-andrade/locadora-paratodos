@@ -17,6 +17,7 @@ public class LocadoraApplicationTests {
 
     @Test
     public void contextLoads() {
+        //Default
     }
 
 }

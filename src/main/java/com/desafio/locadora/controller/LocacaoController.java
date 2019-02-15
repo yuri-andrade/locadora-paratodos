@@ -1,6 +1,5 @@
 package com.desafio.locadora.controller;
 
-
 import com.desafio.locadora.domain.out.LocacaoOut;
 
 import com.desafio.locadora.service.LocacaoService;

@@ -3,12 +3,14 @@ package com.desafio.locadora.service;
 import com.desafio.locadora.converter.UsuarioToUsuarioOutConverter;
 import com.desafio.locadora.domain.out.UsuarioOut;
 import com.desafio.locadora.entity.Usuario;
+import com.desafio.locadora.exception.BusinessException;
 import com.desafio.locadora.repository.UsuarioRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class UsuarioService implements UserDetailsService {
@@ -31,7 +33,11 @@ public class UsuarioService implements UserDetailsService {
     }
 
     public UsuarioOut save(Usuario usuario) {
+        if (Objects.nonNull(loadUserByUsername(usuario.getUsername()))) {
+            throw new BusinessException("E-mail já cadastrado");
+        }
         usuarioRepository.save(usuario);
+
         return usuarioToUsuarioOutConverter.convert(usuario);
     }
 }
