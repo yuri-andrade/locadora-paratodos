@@ -12,7 +12,6 @@ public class UsuarioOut {
     @ApiModelProperty(notes = "Nome do usuário")
     private String nome;
 
-
     public Long getId() {
         return id;
     }

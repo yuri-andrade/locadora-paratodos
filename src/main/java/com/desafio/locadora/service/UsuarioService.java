@@ -7,21 +7,22 @@ import com.desafio.locadora.exception.BusinessException;
 import com.desafio.locadora.repository.UsuarioRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
-
 
 @Service
 public class UsuarioService implements UserDetailsService {
     private final UsuarioRepository usuarioRepository;
     private final UsuarioToUsuarioOutConverter usuarioToUsuarioOutConverter;
+    private final PasswordEncoder passwordEncoder;
 
     public UsuarioService(UsuarioRepository usuarioRepository,
-            UsuarioToUsuarioOutConverter usuarioToUsuarioOutConverter) {
+            UsuarioToUsuarioOutConverter usuarioToUsuarioOutConverter, PasswordEncoder passwordEncoder) {
         this.usuarioRepository = usuarioRepository;
         this.usuarioToUsuarioOutConverter = usuarioToUsuarioOutConverter;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -33,7 +34,7 @@ public class UsuarioService implements UserDetailsService {
         if (Objects.nonNull(loadUserByUsername(usuario.getUsername()))) {
             throw new BusinessException("E-mail já cadastrado");
         }
-        usuario.setPassword(new BCryptPasswordEncoder().encode(usuario.getPassword()));
+        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
         usuarioRepository.save(usuario);
 
         return usuarioToUsuarioOutConverter.convert(usuario);
