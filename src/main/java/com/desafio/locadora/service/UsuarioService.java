@@ -7,10 +7,11 @@ import com.desafio.locadora.exception.BusinessException;
 import com.desafio.locadora.repository.UsuarioRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Objects;
+
 
 @Service
 public class UsuarioService implements UserDetailsService {
@@ -28,14 +29,11 @@ public class UsuarioService implements UserDetailsService {
         return usuarioRepository.findByUsername(username);
     }
 
-    public List<Usuario> findAll() {
-        return usuarioRepository.findAll();
-    }
-
     public UsuarioOut save(Usuario usuario) {
         if (Objects.nonNull(loadUserByUsername(usuario.getUsername()))) {
             throw new BusinessException("E-mail já cadastrado");
         }
+        usuario.setPassword(new BCryptPasswordEncoder().encode(usuario.getPassword()));
         usuarioRepository.save(usuario);
 
         return usuarioToUsuarioOutConverter.convert(usuario);

@@ -48,10 +48,9 @@ public class FilmeService {
     }
 
     public Long rentFilm(String nomeFilme) {
-        Filme filme =
-                findByNome(nomeFilme).stream().filter(this::isAvailable).findFirst()
-                        .orElseThrow(() -> new ResourceNotFoundException(String
-                                .format("Filme '%s' não disponível.", nomeFilme)));
+        Filme filme = findByNome(nomeFilme).stream().filter(this::isAvailable).findFirst()
+                .orElseThrow(() -> new ResourceNotFoundException(String
+                        .format("Filme '%s' não disponível.", nomeFilme)));
         filme.setLocado(LocacaoEnum.SIM);
         filmeRepository.save(filme);
         return filme.getId();

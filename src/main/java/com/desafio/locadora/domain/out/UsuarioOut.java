@@ -12,8 +12,6 @@ public class UsuarioOut {
     @ApiModelProperty(notes = "Nome do usuário")
     private String nome;
 
-    @ApiModelProperty(notes = "Senha utilizada para logar na aplicação")
-    private String password;
 
     public Long getId() {
         return id;
@@ -39,11 +37,4 @@ public class UsuarioOut {
         this.nome = nome;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 }
