@@ -1,7 +1,5 @@
 package com.desafio.locadora.service;
 
-import com.desafio.locadora.converter.FilmeToFilmeOutConverter;
-import com.desafio.locadora.domain.out.FilmeOut;
 import com.desafio.locadora.entity.Filme;
 import com.desafio.locadora.entity.enums.LocacaoEnum;
 import com.desafio.locadora.exception.BusinessException;
@@ -9,7 +7,6 @@ import com.desafio.locadora.exception.ResourceNotFoundException;
 import com.desafio.locadora.repository.FilmeRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -18,11 +15,9 @@ import java.util.stream.Collectors;
 @Service
 public class FilmeService {
     private final FilmeRepository filmeRepository;
-    private final FilmeToFilmeOutConverter filmeToFilmeOutConverter;
 
-    public FilmeService(FilmeRepository filmeRepository, FilmeToFilmeOutConverter filmeToFilmeOutConverter) {
+    public FilmeService(FilmeRepository filmeRepository) {
         this.filmeRepository = filmeRepository;
-        this.filmeToFilmeOutConverter = filmeToFilmeOutConverter;
     }
 
     public List<Filme> findByNome(String nome) {
@@ -37,9 +32,9 @@ public class FilmeService {
                         .format("Filme com o id %d não encontrado.", id)));
     }
 
-    public Set<FilmeOut> findAllAvailable() {
-        return new HashSet<>(filmeToFilmeOutConverter.convertList(filmeRepository.findAll()
-                .stream().filter(this::isAvailable).collect(Collectors.toList())));
+    public Set<Filme> findAllAvailable() {
+        return filmeRepository.findAll().stream()
+                .filter(this::isAvailable).collect(Collectors.toSet());
     }
 
 

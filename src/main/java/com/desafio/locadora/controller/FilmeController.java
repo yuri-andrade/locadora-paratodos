@@ -10,7 +10,10 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Set;
 
@@ -46,8 +49,8 @@ public class FilmeController {
             @ApiResponse(code = 500, message = "Erro interno"),
     })
     @GetMapping()
-    public ResponseEntity<Set<FilmeOut>> availableList() {
-        Set<FilmeOut> allAvailableList = filmeService.findAllAvailable();
-        return new ResponseEntity<>(allAvailableList, HttpStatus.OK);
+    public ResponseEntity<Set<FilmeOut>> availableSet() {
+        Set<FilmeOut> allAvailableSet = toFilmeOutConverter.convertSet(filmeService.findAllAvailable());
+        return new ResponseEntity<>(allAvailableSet, HttpStatus.OK);
     }
 }

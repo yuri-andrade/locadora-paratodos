@@ -7,6 +7,7 @@ import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Set;
 
 @Component
 public class FilmeToFilmeOutConverter implements Converter<Filme, FilmeOut> {
@@ -23,5 +24,9 @@ public class FilmeToFilmeOutConverter implements Converter<Filme, FilmeOut> {
 
     public List<FilmeOut> convertList(List<Filme> filmes) {
         return modelMapperUtils.mapList(filmes, FilmeOut.class);
+    }
+
+    public Set<FilmeOut> convertSet(Set<Filme> filmeSet) {
+        return modelMapperUtils.mapSet(filmeSet, FilmeOut.class);
     }
 }

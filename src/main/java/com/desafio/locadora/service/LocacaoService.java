@@ -1,7 +1,5 @@
 package com.desafio.locadora.service;
 
-import com.desafio.locadora.converter.LocacaoToLocacaoOutConverter;
-import com.desafio.locadora.domain.out.LocacaoOut;
 import com.desafio.locadora.entity.Locacao;
 import com.desafio.locadora.exception.ResourceNotFoundException;
 import com.desafio.locadora.repository.LocacaoRepository;
@@ -17,13 +15,10 @@ import java.util.Objects;
 public class LocacaoService {
     private final LocacaoRepository locacaoRepository;
     private final FilmeService filmeService;
-    private final LocacaoToLocacaoOutConverter locacaoToLocacaoOutConverter;
 
-    public LocacaoService(LocacaoRepository locacaoRepository, FilmeService filmeService,
-            LocacaoToLocacaoOutConverter locacaoToLocacaoOutConverter) {
+    public LocacaoService(LocacaoRepository locacaoRepository, FilmeService filmeService) {
         this.locacaoRepository = locacaoRepository;
         this.filmeService = filmeService;
-        this.locacaoToLocacaoOutConverter = locacaoToLocacaoOutConverter;
     }
 
     public Locacao findByidFilme(Long idFilme) {
@@ -35,21 +30,21 @@ public class LocacaoService {
                         .format("Locação em aberto com o filme de id '%d' não encontrada.", idFilme)));
     }
 
-    public LocacaoOut startLocacao(String nomeFilme) {
+    public Locacao startLocacao(String nomeFilme) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUserName = Objects.nonNull(authentication.getName()) ? authentication.getName() : null;
 
         Long idFilme = filmeService.rentFilm(nomeFilme);
         Locacao locacao = new Locacao(idFilme, currentUserName, LocalDateTime.now());
         locacaoRepository.save(locacao);
-        return locacaoToLocacaoOutConverter.convert(locacao);
+        return locacao;
     }
 
-    public LocacaoOut endLocacao(Long idFilme) {
+    public Locacao endLocacao(Long idFilme) {
         Locacao locacao = findByidFilme(idFilme);
         filmeService.returnFilm(idFilme);
         locacao.setRetorno(LocalDateTime.now());
         locacaoRepository.save(locacao);
-        return locacaoToLocacaoOutConverter.convert(locacao);
+        return locacao;
     }
 }

@@ -1,6 +1,7 @@
 package com.desafio.locadora.controller;
 
 import com.desafio.locadora.converter.UsuarioInToUsuarioConverter;
+import com.desafio.locadora.converter.UsuarioToUsuarioOutConverter;
 import com.desafio.locadora.domain.in.UsuarioIn;
 import com.desafio.locadora.domain.out.UsuarioOut;
 import com.desafio.locadora.service.UsuarioService;
@@ -19,11 +20,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class UsuarioController {
     private final UsuarioService usuarioService;
     private final UsuarioInToUsuarioConverter usuarioInToUsuarioConverter;
+    private final UsuarioToUsuarioOutConverter usuarioToUsuarioOutConverter;
 
     public UsuarioController(UsuarioService usuarioService,
-            UsuarioInToUsuarioConverter usuarioInToUsuarioConverter) {
+            UsuarioInToUsuarioConverter usuarioInToUsuarioConverter,
+            UsuarioToUsuarioOutConverter usuarioToUsuarioOutConverter) {
         this.usuarioService = usuarioService;
         this.usuarioInToUsuarioConverter = usuarioInToUsuarioConverter;
+        this.usuarioToUsuarioOutConverter = usuarioToUsuarioOutConverter;
     }
 
 
@@ -36,7 +40,9 @@ public class UsuarioController {
     })
     @PostMapping
     public ResponseEntity<UsuarioOut> createUser(@RequestBody UsuarioIn usuarioIn) {
-        UsuarioOut usuarioOut = usuarioService.save(usuarioInToUsuarioConverter.convert(usuarioIn));
+        UsuarioOut usuarioOut =
+                usuarioToUsuarioOutConverter.convert(usuarioService
+                        .save(usuarioInToUsuarioConverter.convert(usuarioIn)));
         return new ResponseEntity<>(usuarioOut, HttpStatus.CREATED);
     }
 }
