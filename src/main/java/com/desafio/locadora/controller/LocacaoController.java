@@ -40,7 +40,6 @@ public class LocacaoController {
     @ApiResponses(value = {
             @ApiResponse(code = 201, message = "Locação criada com sucesso"),
             @ApiResponse(code = 500, message = "Erro interno"),
-            @ApiResponse(code = 400, message = "Filme já encontra-se alugado"),
             @ApiResponse(code = 404, message = "Filme não encontrado para o id informado")
 
     })

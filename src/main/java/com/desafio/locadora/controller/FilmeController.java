@@ -10,10 +10,7 @@ import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
 
@@ -35,8 +32,8 @@ public class FilmeController {
             @ApiResponse(code = 500, message = "Erro interno"),
             @ApiResponse(code = 404, message = "Filme não encontrado para o nome informado")
     })
-    @GetMapping(value = "search")
-    public ResponseEntity<FilmeOut> searchFilmByName(@RequestParam String nome) {
+    @GetMapping(value = "/{nome}")
+    public ResponseEntity<FilmeOut> searchFilmByName(@PathVariable String nome) {
         FilmeOut filme = toFilmeOutConverter.convert(filmeService.findByNome(nome).stream().findFirst()
                 .orElseThrow(() -> new ResourceNotFoundException(String
                         .format("Filme com o nome '%s' não encontrado.", nome))));
@@ -50,9 +47,7 @@ public class FilmeController {
     })
     @GetMapping()
     public ResponseEntity<Set<FilmeOut>> availableList() {
-        Set<FilmeOut> lista = filmeService.findAllAvailable();
-        return new ResponseEntity<>(lista, HttpStatus.OK);
+        Set<FilmeOut> allAvailableList = filmeService.findAllAvailable();
+        return new ResponseEntity<>(allAvailableList, HttpStatus.OK);
     }
-
-
 }
