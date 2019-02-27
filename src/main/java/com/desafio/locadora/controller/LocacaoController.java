@@ -1,8 +1,8 @@
 package com.desafio.locadora.controller;
 
 import com.desafio.locadora.converter.LocacaoToLocacaoOutConverter;
+import com.desafio.locadora.domain.in.LocacaoIn;
 import com.desafio.locadora.domain.out.LocacaoOut;
-
 import com.desafio.locadora.service.LocacaoService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
@@ -11,8 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -34,8 +34,8 @@ public class LocacaoController {
 
     })
     @PutMapping()
-    public ResponseEntity<LocacaoOut> endLocacao(@RequestParam Long idFilme) {
-        LocacaoOut locacaoOut = locacaoToLocacaoOutConverter.convert(locacaoService.endLocacao(idFilme));
+    public ResponseEntity<LocacaoOut> endLocacao(@RequestBody LocacaoIn locacaoIn) {
+        LocacaoOut locacaoOut = locacaoToLocacaoOutConverter.convert(locacaoService.endLocacao(locacaoIn));
         return new ResponseEntity<>(locacaoOut, HttpStatus.OK);
     }
 
@@ -47,8 +47,9 @@ public class LocacaoController {
 
     })
     @PostMapping()
-    public ResponseEntity<LocacaoOut> startLocacao(@RequestParam String nomeFilme) {
-        LocacaoOut locacaoOut = locacaoToLocacaoOutConverter.convert(locacaoService.startLocacao(nomeFilme));
+    public ResponseEntity<LocacaoOut> startLocacao(@RequestBody LocacaoIn locacaoIn) {
+        LocacaoOut locacaoOut = locacaoToLocacaoOutConverter.convert(locacaoService
+                .startLocacao(locacaoIn));
         return new ResponseEntity<>(locacaoOut, HttpStatus.CREATED);
     }
 }

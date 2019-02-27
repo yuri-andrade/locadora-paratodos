@@ -1,6 +1,8 @@
 package com.desafio.locadora.service;
 
+import com.desafio.locadora.domain.in.LocacaoIn;
 import com.desafio.locadora.entity.Locacao;
+import com.desafio.locadora.exception.BusinessException;
 import com.desafio.locadora.exception.ResourceNotFoundException;
 import com.desafio.locadora.repository.LocacaoRepository;
 import org.springframework.security.core.Authentication;
@@ -30,21 +32,28 @@ public class LocacaoService {
                         .format("Locação em aberto com o filme de id '%d' não encontrada.", idFilme)));
     }
 
-    public Locacao startLocacao(String nomeFilme) {
+    public Locacao startLocacao(LocacaoIn locacaoIn) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUserName = Objects.nonNull(authentication.getName()) ? authentication.getName() : null;
-
-        Long idFilme = filmeService.rentFilm(nomeFilme);
-        Locacao locacao = new Locacao(idFilme, currentUserName, LocalDateTime.now());
-        locacaoRepository.save(locacao);
-        return locacao;
+        if (Objects.nonNull(locacaoIn.getNomeFilme())) {
+            Long idFilme = filmeService.rentFilm(locacaoIn.getNomeFilme());
+            Locacao locacao = new Locacao(idFilme, currentUserName, LocalDateTime.now());
+            locacaoRepository.save(locacao);
+            return locacao;
+        } else {
+            throw new BusinessException("O nome do filme deve ser informado");
+        }
     }
 
-    public Locacao endLocacao(Long idFilme) {
-        Locacao locacao = findByidFilme(idFilme);
-        filmeService.returnFilm(idFilme);
-        locacao.setRetorno(LocalDateTime.now());
-        locacaoRepository.save(locacao);
-        return locacao;
+    public Locacao endLocacao(LocacaoIn locacaoIn) {
+        if (Objects.nonNull(locacaoIn.getIdFilme())) {
+            Locacao locacao = findByidFilme(locacaoIn.getIdFilme());
+            filmeService.returnFilm(locacaoIn.getIdFilme());
+            locacao.setRetorno(LocalDateTime.now());
+            locacaoRepository.save(locacao);
+            return locacao;
+        } else {
+            throw new BusinessException("O id do filme deve ser informado");
+        }
     }
 }

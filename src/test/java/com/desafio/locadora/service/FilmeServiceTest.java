@@ -1,6 +1,5 @@
 package com.desafio.locadora.service;
 
-import com.desafio.locadora.converter.FilmeToFilmeOutConverter;
 import com.desafio.locadora.entity.Filme;
 import com.desafio.locadora.entity.enums.LocacaoEnum;
 import com.desafio.locadora.exception.ResourceNotFoundException;
@@ -10,7 +9,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
@@ -23,9 +21,6 @@ public class FilmeServiceTest {
 
     @Spy
     private FilmeRepository filmeRepository;
-
-    @Mock
-    private FilmeToFilmeOutConverter filmeToFilmeOutConverter;
 
     @Spy
     @InjectMocks
