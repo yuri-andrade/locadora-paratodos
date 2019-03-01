@@ -23,8 +23,8 @@ public class UsuarioController {
     private final UsuarioToUsuarioOutConverter usuarioToUsuarioOutConverter;
 
     public UsuarioController(UsuarioService usuarioService,
-            UsuarioInToUsuarioConverter usuarioInToUsuarioConverter,
-            UsuarioToUsuarioOutConverter usuarioToUsuarioOutConverter) {
+                             UsuarioInToUsuarioConverter usuarioInToUsuarioConverter,
+                             UsuarioToUsuarioOutConverter usuarioToUsuarioOutConverter) {
         this.usuarioService = usuarioService;
         this.usuarioInToUsuarioConverter = usuarioInToUsuarioConverter;
         this.usuarioToUsuarioOutConverter = usuarioToUsuarioOutConverter;
