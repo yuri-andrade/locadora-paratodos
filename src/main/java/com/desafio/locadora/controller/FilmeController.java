@@ -36,7 +36,7 @@ public class FilmeController {
             @ApiResponse(code = 404, message = "Filme não encontrado para o nome informado")
     })
     @GetMapping(value = "/{nome}")
-    public ResponseEntity<FilmeOut> searchFilmByName(@PathVariable String nome) {
+    public ResponseEntity<FilmeOut> findByNome(@PathVariable String nome) {
         FilmeOut filme = toFilmeOutConverter.convert(filmeService.findByNome(nome).stream().findFirst()
                 .orElseThrow(() -> new ResourceNotFoundException(String
                         .format("Filme com o nome '%s' não encontrado.", nome))));
@@ -49,7 +49,7 @@ public class FilmeController {
             @ApiResponse(code = 500, message = "Erro interno"),
     })
     @GetMapping()
-    public ResponseEntity<Set<FilmeOut>> availableSet() {
+    public ResponseEntity<Set<FilmeOut>> findAllAvailable() {
         Set<FilmeOut> allAvailableSet = toFilmeOutConverter.convertSet(filmeService.findAllAvailable());
         return new ResponseEntity<>(allAvailableSet, HttpStatus.OK);
     }

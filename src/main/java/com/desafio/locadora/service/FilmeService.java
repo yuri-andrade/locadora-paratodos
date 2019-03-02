@@ -7,10 +7,10 @@ import com.desafio.locadora.exception.ResourceNotFoundException;
 import com.desafio.locadora.repository.FilmeRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
 public class FilmeService {
@@ -33,8 +33,8 @@ public class FilmeService {
     }
 
     public Set<Filme> findAllAvailable() {
-        return filmeRepository.findAll().stream()
-                .filter(this::isAvailable).collect(Collectors.toSet());
+        return new HashSet<>(filmeRepository.findAllByLocado(LocacaoEnum.NAO)
+                .orElseThrow(() -> new BusinessException("Nenhum filme disponível")));
     }
 
 
