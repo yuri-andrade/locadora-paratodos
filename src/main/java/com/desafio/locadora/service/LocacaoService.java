@@ -1,6 +1,7 @@
 package com.desafio.locadora.service;
 
 import com.desafio.locadora.domain.in.LocacaoIn;
+import com.desafio.locadora.entity.Filme;
 import com.desafio.locadora.entity.Locacao;
 import com.desafio.locadora.exception.BusinessException;
 import com.desafio.locadora.exception.ResourceNotFoundException;
@@ -36,8 +37,9 @@ public class LocacaoService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUserName = Objects.nonNull(authentication.getName()) ? authentication.getName() : null;
         if (Objects.nonNull(locacaoIn.getNomeFilme())) {
-            Long idFilme = filmeService.rentFilm(locacaoIn.getNomeFilme());
-            Locacao locacao = new Locacao(idFilme, currentUserName, LocalDateTime.now());
+            Filme filme = filmeService.rentFilm(locacaoIn.getNomeFilme());
+            Locacao locacao = Locacao.builder.idFilme(filme.getId()).usuario(currentUserName)
+                    .emprestimo(LocalDateTime.now()).build();
             locacaoRepository.save(locacao);
             return locacao;
         } else {

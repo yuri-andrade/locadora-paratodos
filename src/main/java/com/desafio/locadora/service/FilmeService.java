@@ -42,13 +42,13 @@ public class FilmeService {
         return Objects.equals(LocacaoEnum.NAO, filme.getLocado());
     }
 
-    public Long rentFilm(String nomeFilme) {
+    public Filme rentFilm(String nomeFilme) {
         Filme filme = findByNome(nomeFilme).stream().filter(this::isAvailable).findFirst()
                 .orElseThrow(() -> new ResourceNotFoundException(String
                         .format("Filme '%s' não disponível.", nomeFilme)));
         filme.setLocado(LocacaoEnum.SIM);
         filmeRepository.save(filme);
-        return filme.getId();
+        return filme;
     }
 
     public void returnFilm(Long idFilme) {

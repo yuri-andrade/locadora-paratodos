@@ -1,7 +1,6 @@
 package com.desafio.locadora.entity;
 
 import java.time.LocalDateTime;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -27,13 +26,35 @@ public class Locacao {
     private LocalDateTime retorno;
 
 
-    public Locacao(Long idFilme, String usuario, LocalDateTime emprestimo) {
-        this.idFilme = idFilme;
-        this.usuario = usuario;
-        this.emprestimo = emprestimo;
-    }
+    public static final Builder builder = new Builder();
 
-    public Locacao() {
+    public static class Builder {
+
+        Locacao locacao = new Locacao();
+
+        public Builder idFilme(Long idFilme) {
+            locacao.setIdFilme(idFilme);
+            return this;
+        }
+
+        public Builder usuario(String usuario) {
+            locacao.setUsuario(usuario);
+            return this;
+        }
+
+        public Builder emprestimo(LocalDateTime emprestimo) {
+            locacao.setEmprestimo(emprestimo);
+            return this;
+        }
+
+        public Builder retorno(LocalDateTime retorno) {
+            locacao.setRetorno(retorno);
+            return this;
+        }
+
+        public Locacao build() {
+            return locacao;
+        }
     }
 
     public Long getId() {
@@ -75,4 +96,5 @@ public class Locacao {
     public void setRetorno(LocalDateTime retorno) {
         this.retorno = retorno;
     }
+
 }
