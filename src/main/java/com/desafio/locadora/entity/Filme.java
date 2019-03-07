@@ -3,34 +3,32 @@ package com.desafio.locadora.entity;
 import com.desafio.locadora.entity.enums.LocacaoEnum;
 import springfox.documentation.annotations.ApiIgnore;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @ApiIgnore
 @Entity
+@Table(name = "TA_FILME")
 public class Filme {
     @Id
     @GeneratedValue
-    @Column(name = "id", nullable = false)
-    private Long id;
+    @Column(name = "ID_FILME", nullable = false)
+    private Long idFilme;
 
-    @Column(name = "nome", nullable = false)
+    @Column(name = "NOME", nullable = false)
     private String nome;
 
-    @Column(name = "diretor", nullable = false)
+    @Column(name = "DIRETOR", nullable = false)
     private String diretor;
 
-    @Column(name = "locado", nullable = false)
+    @Column(name = "LOCADO", nullable = false)
     private LocacaoEnum locado;
 
-    public Long getId() {
-        return id;
+    public Long getIdFilme() {
+        return idFilme;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setIdFilme(Long idFilme) {
+        this.idFilme = idFilme;
     }
 
     public String getNome() {

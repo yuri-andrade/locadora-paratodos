@@ -5,35 +5,33 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 
 @Entity
+@Table(name = "TA_USUARIO")
 public class Usuario implements UserDetails {
     @Id
     @GeneratedValue
-    @Column(name = "id", nullable = false)
-    private Long id;
+    @Column(name = "ID_USER", nullable = false)
+    private Long idUser;
 
-    @Column(name = "username", nullable = false)
+    @Column(name = "USERNAME", nullable = false)
     @Email
     private String username;
 
-    @Column(name = "nome", nullable = false)
+    @Column(name = "NOME", nullable = false)
     private String nome;
 
-    @Column(name = "password", nullable = false)
+    @Column(name = "PASSWORD", nullable = false)
     private String password;
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setIdUser(Long idUser) {
+        this.idUser = idUser;
     }
 
-    public Long getId() {
-        return id;
+    public Long getIdUser() {
+        return idUser;
     }
 
     public void setUsername(String username) {

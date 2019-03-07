@@ -28,7 +28,7 @@ public class LocacaoService {
         List<Locacao> lista = locacaoRepository.findByIdFilme(idFilme)
                 .orElseThrow(() -> new ResourceNotFoundException(
                         String.format("Locação com o filme de id '%d' não encontrada.", idFilme)));
-        return lista.stream().filter(locacaos -> Objects.isNull(locacaos.getRetorno())).findAny()
+        return lista.stream().filter(locacoes -> Objects.isNull(locacoes.getDataRetorno())).findAny()
                 .orElseThrow(() -> new ResourceNotFoundException(String
                         .format("Locação em aberto com o filme de id '%d' não encontrada.", idFilme)));
     }
@@ -38,8 +38,8 @@ public class LocacaoService {
         String currentUserName = Objects.nonNull(authentication.getName()) ? authentication.getName() : null;
         if (Objects.nonNull(locacaoIn.getNomeFilme())) {
             Filme filme = filmeService.rentFilm(locacaoIn.getNomeFilme());
-            Locacao locacao = Locacao.builder.idFilme(filme.getId()).usuario(currentUserName)
-                    .emprestimo(LocalDateTime.now()).build();
+            Locacao locacao = Locacao.builder.idFilme(filme.getIdFilme()).usuario(currentUserName)
+                    .emprestimo(LocalDateTime.now()).filme(filme).build();
             locacaoRepository.save(locacao);
             return locacao;
         } else {
@@ -51,7 +51,7 @@ public class LocacaoService {
         if (Objects.nonNull(locacaoIn.getIdFilme())) {
             Locacao locacao = findByidFilme(locacaoIn.getIdFilme());
             filmeService.returnFilm(locacaoIn.getIdFilme());
-            locacao.setRetorno(LocalDateTime.now());
+            locacao.setDataRetorno(LocalDateTime.now());
             locacaoRepository.save(locacao);
             return locacao;
         } else {

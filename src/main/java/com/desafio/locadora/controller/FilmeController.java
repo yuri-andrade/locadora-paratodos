@@ -43,7 +43,7 @@ public class FilmeController {
         return new ResponseEntity<>(filme, HttpStatus.OK);
     }
 
-    @ApiOperation(value = "Exibe lista de filmes disponíveis para locação", response = FilmeOut.class)
+    @ApiOperation(value = "Exibe lista de filmes disponíveis para locação", response = FilmeOut[].class)
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Filmes localizados com sucesso"),
             @ApiResponse(code = 500, message = "Erro interno"),

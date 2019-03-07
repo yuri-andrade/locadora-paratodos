@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 public class LocacaoOut {
 
     @ApiModelProperty(notes = "ID auto-gerado para identificação da entidade")
-    private Long id;
+    private Long idLocacao;
 
     @ApiModelProperty(notes = "ID de identificação do Filme alugado")
     private Long idFilme;
@@ -16,17 +16,20 @@ public class LocacaoOut {
     private String usuario;
 
     @ApiModelProperty(notes = "Data de início da locação")
-    private LocalDateTime emprestimo;
+    private LocalDateTime dataEmprestimo;
 
     @ApiModelProperty(notes = "Data de final da locação", allowEmptyValue = true)
-    private LocalDateTime retorno;
+    private LocalDateTime dataRetorno;
 
-    public Long getId() {
-        return id;
+    @ApiModelProperty(notes = "Filme locado")
+    private FilmeOut filme;
+
+    public Long getIdLocacao() {
+        return idLocacao;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setIdLocacao(Long idLocacao) {
+        this.idLocacao = idLocacao;
     }
 
     public Long getIdFilme() {
@@ -45,19 +48,27 @@ public class LocacaoOut {
         this.usuario = usuario;
     }
 
-    public LocalDateTime getEmprestimo() {
-        return emprestimo;
+    public LocalDateTime getDataEmprestimo() {
+        return dataEmprestimo;
     }
 
-    public void setEmprestimo(LocalDateTime emprestimo) {
-        this.emprestimo = emprestimo;
+    public void setDataEmprestimo(LocalDateTime dataEmprestimo) {
+        this.dataEmprestimo = dataEmprestimo;
     }
 
-    public LocalDateTime getRetorno() {
-        return retorno;
+    public LocalDateTime getDataRetorno() {
+        return dataRetorno;
     }
 
-    public void setRetorno(LocalDateTime retorno) {
-        this.retorno = retorno;
+    public void setDataRetorno(LocalDateTime dataRetorno) {
+        this.dataRetorno = dataRetorno;
+    }
+
+    public FilmeOut getFilme() {
+        return filme;
+    }
+
+    public void setFilme(FilmeOut filme) {
+        this.filme = filme;
     }
 }

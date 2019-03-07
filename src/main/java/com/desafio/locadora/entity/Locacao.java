@@ -1,30 +1,31 @@
 package com.desafio.locadora.entity;
 
 import java.time.LocalDateTime;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
+@Table(name = "TA_LOCACAO")
 public class Locacao {
     @Id
     @GeneratedValue
-    @Column(name = "id", nullable = false)
-    private Long id;
+    @Column(name = "ID_LOCACAO", nullable = false)
+    private Long idLocacao;
 
-    @Column(name = "idFilme", nullable = false)
+    @Column(name = "ID_FILME", nullable = false)
     private Long idFilme;
 
-    @Column(name = "usuario", nullable = false)
+    @Column(name = "USUARIO", nullable = false)
     private String usuario;
 
-    @Column(name = "emprestimo", nullable = false)
-    private LocalDateTime emprestimo;
+    @Column(name = "DATA_EMPRESTIMO", nullable = false)
+    private LocalDateTime dataEmprestimo;
 
-    @Column(name = "retorno", nullable = true)
-    private LocalDateTime retorno;
+    @Column(name = "DATA_RETORNO")
+    private LocalDateTime dataRetorno;
 
+    @JoinColumn(name = "ID_FILME", referencedColumnName = "ID_FILME", insertable = false, updatable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Filme filme;
 
     public static final Builder builder = new Builder();
 
@@ -43,26 +44,32 @@ public class Locacao {
         }
 
         public Builder emprestimo(LocalDateTime emprestimo) {
-            locacao.setEmprestimo(emprestimo);
+            locacao.setDataEmprestimo(emprestimo);
             return this;
         }
 
         public Builder retorno(LocalDateTime retorno) {
-            locacao.setRetorno(retorno);
+            locacao.setDataRetorno(retorno);
+            return this;
+        }
+
+        public Builder filme(Filme filme) {
+            locacao.setFilme(filme);
             return this;
         }
 
         public Locacao build() {
+            locacao.setIdLocacao(null);
             return locacao;
         }
     }
 
-    public Long getId() {
-        return id;
+    public Long getIdLocacao() {
+        return idLocacao;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setIdLocacao(Long idLocacao) {
+        this.idLocacao = idLocacao;
     }
 
     public Long getIdFilme() {
@@ -81,20 +88,27 @@ public class Locacao {
         this.usuario = usuario;
     }
 
-    public LocalDateTime getEmprestimo() {
-        return emprestimo;
+    public LocalDateTime getDataEmprestimo() {
+        return dataEmprestimo;
     }
 
-    public void setEmprestimo(LocalDateTime emprestimo) {
-        this.emprestimo = emprestimo;
+    public void setDataEmprestimo(LocalDateTime dataEmprestimo) {
+        this.dataEmprestimo = dataEmprestimo;
     }
 
-    public LocalDateTime getRetorno() {
-        return retorno;
+    public LocalDateTime getDataRetorno() {
+        return dataRetorno;
     }
 
-    public void setRetorno(LocalDateTime retorno) {
-        this.retorno = retorno;
+    public void setDataRetorno(LocalDateTime dataRetorno) {
+        this.dataRetorno = dataRetorno;
     }
 
+    public Filme getFilme() {
+        return filme;
+    }
+
+    public void setFilme(Filme filme) {
+        this.filme = filme;
+    }
 }

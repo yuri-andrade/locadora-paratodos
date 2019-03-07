@@ -34,7 +34,7 @@ public class FilmeServiceTest {
     @Before
     public void init() {
         filme = new Filme();
-        filme.setId(id);
+        filme.setIdFilme(id);
         filme.setNome(nome);
         filme.setDiretor(diretor);
         filme.setLocado(LocacaoEnum.NAO);

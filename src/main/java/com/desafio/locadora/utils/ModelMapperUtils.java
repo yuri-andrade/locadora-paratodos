@@ -1,6 +1,7 @@
 package com.desafio.locadora.utils;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
@@ -15,6 +16,7 @@ public class ModelMapperUtils {
     private final ModelMapper modelMapper;
 
     public ModelMapperUtils(ModelMapper modelMapper) {
+        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         this.modelMapper = modelMapper;
     }
 
