@@ -10,7 +10,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 @EnableWebSecurity
 @EnableAuthorizationServer
@@ -27,7 +26,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication().withUser("admin").password(passwordEncoder.encode("admin")).roles("ADMIN");
         auth.userDetailsService(usuarioService).passwordEncoder(passwordEncoder);
     }
 
@@ -36,11 +34,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources", "/configuration"
                 + "/security", "/swagger-ui.html", "/webjars/**").antMatchers("/h2", "/h2-console/**");
-    }
-
-    @Bean
-    public InMemoryUserDetailsManager inMemoryUserDetailsManager() {
-        return new InMemoryUserDetailsManager();
     }
 
     @Bean

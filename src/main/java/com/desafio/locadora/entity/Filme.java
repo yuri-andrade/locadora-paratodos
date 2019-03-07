@@ -3,7 +3,11 @@ package com.desafio.locadora.entity;
 import com.desafio.locadora.entity.enums.LocacaoEnum;
 import springfox.documentation.annotations.ApiIgnore;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @ApiIgnore
 @Entity

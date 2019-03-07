@@ -5,16 +5,21 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.Email;
 
 @Entity
 @Table(name = "TA_USUARIO")
 public class Usuario implements UserDetails {
     @Id
-    @GeneratedValue
-    @Column(name = "ID_USER", nullable = false)
-    private Long idUser;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID_USUARIO", nullable = false)
+    private Long idUsuario;
 
     @Column(name = "USERNAME", nullable = false)
     @Email
@@ -26,12 +31,12 @@ public class Usuario implements UserDetails {
     @Column(name = "PASSWORD", nullable = false)
     private String password;
 
-    public void setIdUser(Long idUser) {
-        this.idUser = idUser;
+    public Long getIdUsuario() {
+        return idUsuario;
     }
 
-    public Long getIdUser() {
-        return idUser;
+    public void setIdUsuario(Long idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
     public void setUsername(String username) {

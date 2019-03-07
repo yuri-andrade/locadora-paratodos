@@ -66,7 +66,7 @@ Banco de dados utilizado foi o H2, para facilitar o processo de desenvolvimento,
 
 - Todo o design da aplicação poderia ter sido formulado de outra forma, com uma tabela relacionando as entidades para a verificar a disponibilidade de filmes, foi o escolhido o design atual visando a facilidade e velocidade de implementação.
 
-- O usuário padrão admin/admin é carregado em memória na aplicação, sendo uma possível brecha na segurança.
+- O usuário padrão admin/admin para testes, é inserido no import.sql, sendo uma possível brecha na segurança.
 
 <h3>Pontos fortes</h3>
 
