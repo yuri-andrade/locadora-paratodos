@@ -1,9 +1,13 @@
 package com.desafio.locadora.domain.out;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Objects;
 
+@Getter
+@Setter
 public class FilmeOut {
 
     @ApiModelProperty(notes = "Nome do filme")
@@ -11,22 +15,6 @@ public class FilmeOut {
 
     @ApiModelProperty(notes = "Nome do diretor do filme")
     private String diretor;
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getDiretor() {
-        return diretor;
-    }
-
-    public void setDiretor(String diretor) {
-        this.diretor = diretor;
-    }
 
     @Override
     public boolean equals(Object o) {

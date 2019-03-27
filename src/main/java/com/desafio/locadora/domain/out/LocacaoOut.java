@@ -1,9 +1,13 @@
 package com.desafio.locadora.domain.out;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+@Getter
+@Setter
 public class LocacaoOut {
 
     @ApiModelProperty(notes = "ID auto-gerado para identificação da entidade")
@@ -24,51 +28,4 @@ public class LocacaoOut {
     @ApiModelProperty(notes = "Filme locado")
     private FilmeOut filme;
 
-    public Long getIdLocacao() {
-        return idLocacao;
-    }
-
-    public void setIdLocacao(Long idLocacao) {
-        this.idLocacao = idLocacao;
-    }
-
-    public Long getIdFilme() {
-        return idFilme;
-    }
-
-    public void setIdFilme(Long idFilme) {
-        this.idFilme = idFilme;
-    }
-
-    public String getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(String usuario) {
-        this.usuario = usuario;
-    }
-
-    public LocalDateTime getDataEmprestimo() {
-        return dataEmprestimo;
-    }
-
-    public void setDataEmprestimo(LocalDateTime dataEmprestimo) {
-        this.dataEmprestimo = dataEmprestimo;
-    }
-
-    public LocalDateTime getDataRetorno() {
-        return dataRetorno;
-    }
-
-    public void setDataRetorno(LocalDateTime dataRetorno) {
-        this.dataRetorno = dataRetorno;
-    }
-
-    public FilmeOut getFilme() {
-        return filme;
-    }
-
-    public void setFilme(FilmeOut filme) {
-        this.filme = filme;
-    }
 }

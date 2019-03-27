@@ -6,6 +6,7 @@ import com.desafio.locadora.entity.Locacao;
 import com.desafio.locadora.exception.BusinessException;
 import com.desafio.locadora.exception.ResourceNotFoundException;
 import com.desafio.locadora.repository.LocacaoRepository;
+import com.desafio.locadora.utils.MessagesUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
@@ -13,24 +14,28 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.Supplier;
 
 @Service
 public class LocacaoService {
     private final LocacaoRepository locacaoRepository;
     private final FilmeService filmeService;
+    private final MessagesUtils messagesUtils;
 
-    public LocacaoService(LocacaoRepository locacaoRepository, FilmeService filmeService) {
+    public LocacaoService(LocacaoRepository locacaoRepository, FilmeService filmeService, MessagesUtils messagesUtils) {
         this.locacaoRepository = locacaoRepository;
         this.filmeService = filmeService;
+        this.messagesUtils = messagesUtils;
     }
 
     public Locacao findByidFilme(Long idFilme) {
+        Supplier<ResourceNotFoundException> resourceNotFoundExceptionSupplier = () ->
+                new ResourceNotFoundException(messagesUtils.getMessage("locacao.nao.encontrada.id", idFilme));
+
         List<Locacao> lista = locacaoRepository.findByIdFilme(idFilme)
-                .orElseThrow(() -> new ResourceNotFoundException(
-                        String.format("Locação com o filme de id '%d' não encontrada.", idFilme)));
+                .orElseThrow(resourceNotFoundExceptionSupplier);
         return lista.stream().filter(locacoes -> Objects.isNull(locacoes.getDataRetorno())).findAny()
-                .orElseThrow(() -> new ResourceNotFoundException(String
-                        .format("Locação em aberto com o filme de id '%d' não encontrada.", idFilme)));
+                .orElseThrow(resourceNotFoundExceptionSupplier);
     }
 
     public Locacao startLocacao(LocacaoIn locacaoIn) {
@@ -38,8 +43,8 @@ public class LocacaoService {
         String currentUserName = Objects.nonNull(authentication.getName()) ? authentication.getName() : null;
         if (Objects.nonNull(locacaoIn.getNomeFilme())) {
             Filme filme = filmeService.rentFilm(locacaoIn.getNomeFilme());
-            Locacao locacao = Locacao.builder.idFilme(filme.getIdFilme()).usuario(currentUserName)
-                    .emprestimo(LocalDateTime.now()).filme(filme).build();
+            Locacao locacao = Locacao.builder().idFilme(filme.getIdFilme()).usuario(currentUserName)
+                    .dataEmprestimo((LocalDateTime.now())).filme(filme).build();
             locacaoRepository.save(locacao);
             return locacao;
         } else {

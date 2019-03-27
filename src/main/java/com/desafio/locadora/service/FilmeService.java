@@ -5,6 +5,7 @@ import com.desafio.locadora.entity.enums.LocacaoEnum;
 import com.desafio.locadora.exception.BusinessException;
 import com.desafio.locadora.exception.ResourceNotFoundException;
 import com.desafio.locadora.repository.FilmeRepository;
+import com.desafio.locadora.utils.MessagesUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -15,21 +16,22 @@ import java.util.Set;
 @Service
 public class FilmeService {
     private final FilmeRepository filmeRepository;
+    private final MessagesUtils messagesUtils;
 
-    public FilmeService(FilmeRepository filmeRepository) {
+    public FilmeService(FilmeRepository filmeRepository, MessagesUtils messagesUtils) {
         this.filmeRepository = filmeRepository;
+        this.messagesUtils = messagesUtils;
     }
 
     public List<Filme> findByNome(String nome) {
         return filmeRepository.findByNome(nome)
-                .orElseThrow(() -> new ResourceNotFoundException(String
-                        .format("Filme com o nome '%s' não encontrado.", nome)));
+                .orElseThrow(() -> new ResourceNotFoundException(messagesUtils.getMessage("filme.nao.encontrado.nome",
+                        nome)));
     }
 
     public Filme findById(Long id) {
         return filmeRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(String
-                        .format("Filme com o id %d não encontrado.", id)));
+                .orElseThrow(() -> new ResourceNotFoundException(messagesUtils.getMessage("filme.nao.encontrado.id", id)));
     }
 
     public Set<Filme> findAllAvailable() {

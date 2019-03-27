@@ -4,6 +4,7 @@ import com.desafio.locadora.converter.FilmeToFilmeOutConverter;
 import com.desafio.locadora.domain.out.FilmeOut;
 import com.desafio.locadora.exception.ResourceNotFoundException;
 import com.desafio.locadora.service.FilmeService;
+import com.desafio.locadora.utils.MessagesUtils;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
@@ -22,11 +23,13 @@ import java.util.Set;
 public class FilmeController {
     private final FilmeService filmeService;
     private final FilmeToFilmeOutConverter toFilmeOutConverter;
+    private final MessagesUtils messagesUtils;
 
     @Autowired
-    public FilmeController(FilmeService filmeService, FilmeToFilmeOutConverter toFilmeOutConverter) {
+    public FilmeController(FilmeService filmeService, FilmeToFilmeOutConverter toFilmeOutConverter, MessagesUtils messagesUtils) {
         this.filmeService = filmeService;
         this.toFilmeOutConverter = toFilmeOutConverter;
+        this.messagesUtils = messagesUtils;
     }
 
     @ApiOperation(value = "Procura filme pelo nome", response = FilmeOut.class)
@@ -38,8 +41,8 @@ public class FilmeController {
     @GetMapping(value = "/{nome}")
     public ResponseEntity<FilmeOut> findByNome(@PathVariable String nome) {
         FilmeOut filme = toFilmeOutConverter.convert(filmeService.findByNome(nome).stream().findFirst()
-                .orElseThrow(() -> new ResourceNotFoundException(String
-                        .format("Filme com o nome '%s' não encontrado.", nome))));
+                .orElseThrow(() -> new ResourceNotFoundException(messagesUtils.getMessage("filme.nao.encontrado.nome",
+                        nome))));
         return new ResponseEntity<>(filme, HttpStatus.OK);
     }
 

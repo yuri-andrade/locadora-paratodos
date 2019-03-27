@@ -1,6 +1,7 @@
 package com.desafio.locadora.entity;
 
 import com.desafio.locadora.entity.enums.LocacaoEnum;
+import lombok.Data;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.persistence.*;
@@ -8,6 +9,7 @@ import javax.persistence.*;
 @ApiIgnore
 @Entity
 @Table(name = "TA_FILME")
+@Data
 public class Filme {
     @Id
     @GeneratedValue
@@ -22,37 +24,5 @@ public class Filme {
 
     @Column(name = "LOCADO", nullable = false)
     private LocacaoEnum locado;
-
-    public Long getIdFilme() {
-        return idFilme;
-    }
-
-    public void setIdFilme(Long idFilme) {
-        this.idFilme = idFilme;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
-    public String getDiretor() {
-        return diretor;
-    }
-
-    public void setDiretor(String diretor) {
-        this.diretor = diretor;
-    }
-
-    public LocacaoEnum getLocado() {
-        return locado;
-    }
-
-    public void setLocado(LocacaoEnum locado) {
-        this.locado = locado;
-    }
 }
 

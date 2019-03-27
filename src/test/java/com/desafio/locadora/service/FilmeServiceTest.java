@@ -4,11 +4,13 @@ import com.desafio.locadora.entity.Filme;
 import com.desafio.locadora.entity.enums.LocacaoEnum;
 import com.desafio.locadora.exception.ResourceNotFoundException;
 import com.desafio.locadora.repository.FilmeRepository;
+import com.desafio.locadora.utils.MessagesUtils;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.junit.MockitoJUnitRunner;
@@ -19,6 +21,8 @@ import java.util.List;
 @RunWith(MockitoJUnitRunner.class)
 public class FilmeServiceTest {
 
+    @Mock
+    private MessagesUtils messagesUtils;
     @Spy
     private FilmeRepository filmeRepository;
 

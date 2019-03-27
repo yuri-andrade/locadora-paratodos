@@ -1,7 +1,11 @@
 package com.desafio.locadora.domain.out;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class UsuarioOut {
     @ApiModelProperty(notes = "ID auto-gerado para identificação da entidade", allowEmptyValue = true)
     private Long id;
@@ -11,29 +15,4 @@ public class UsuarioOut {
 
     @ApiModelProperty(notes = "Nome do usuário")
     private String nome;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
-
 }
