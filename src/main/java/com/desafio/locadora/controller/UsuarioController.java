@@ -40,10 +40,9 @@ public class UsuarioController {
     })
     @PostMapping
     public ResponseEntity<UsuarioOut> createUser(@RequestBody UsuarioIn usuarioIn) {
-        UsuarioOut usuarioOut =
-                usuarioToUsuarioOutConverter.convert(usuarioService
-                        .save(usuarioInToUsuarioConverter.convert(usuarioIn)));
-        return new ResponseEntity<>(usuarioOut, HttpStatus.CREATED);
+        UsuarioOut usuarioOut = usuarioToUsuarioOutConverter.convert(
+                usuarioService.save(usuarioInToUsuarioConverter.convert(usuarioIn)));
+        return ResponseEntity.status(HttpStatus.CREATED).body(usuarioOut);
     }
 }
 

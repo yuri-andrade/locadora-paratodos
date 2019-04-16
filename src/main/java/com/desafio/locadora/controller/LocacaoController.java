@@ -36,7 +36,7 @@ public class LocacaoController {
     @PutMapping()
     public ResponseEntity<LocacaoOut> endLocacao(@RequestBody LocacaoIn locacaoIn) {
         LocacaoOut locacaoOut = locacaoToLocacaoOutConverter.convert(locacaoService.endLocacao(locacaoIn));
-        return new ResponseEntity<>(locacaoOut, HttpStatus.OK);
+        return ResponseEntity.ok().body(locacaoOut);
     }
 
     @ApiOperation(value = "Inicia uma locação com o filme de nome informado", response = LocacaoOut.class)
@@ -50,6 +50,6 @@ public class LocacaoController {
     public ResponseEntity<LocacaoOut> startLocacao(@RequestBody LocacaoIn locacaoIn) {
         LocacaoOut locacaoOut = locacaoToLocacaoOutConverter.convert(locacaoService
                 .startLocacao(locacaoIn));
-        return new ResponseEntity<>(locacaoOut, HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).body(locacaoOut);
     }
 }

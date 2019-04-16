@@ -2,14 +2,11 @@ package com.desafio.locadora.controller;
 
 import com.desafio.locadora.converter.FilmeToFilmeOutConverter;
 import com.desafio.locadora.domain.out.FilmeOut;
-import com.desafio.locadora.exception.ResourceNotFoundException;
 import com.desafio.locadora.service.FilmeService;
-import com.desafio.locadora.utils.MessagesUtils;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,13 +20,11 @@ import java.util.Set;
 public class FilmeController {
     private final FilmeService filmeService;
     private final FilmeToFilmeOutConverter toFilmeOutConverter;
-    private final MessagesUtils messagesUtils;
 
     @Autowired
-    public FilmeController(FilmeService filmeService, FilmeToFilmeOutConverter toFilmeOutConverter, MessagesUtils messagesUtils) {
+    public FilmeController(FilmeService filmeService, FilmeToFilmeOutConverter toFilmeOutConverter) {
         this.filmeService = filmeService;
         this.toFilmeOutConverter = toFilmeOutConverter;
-        this.messagesUtils = messagesUtils;
     }
 
     @ApiOperation(value = "Procura filme pelo nome", response = FilmeOut.class)
@@ -40,10 +35,8 @@ public class FilmeController {
     })
     @GetMapping(value = "/{nome}")
     public ResponseEntity<FilmeOut> findByNome(@PathVariable String nome) {
-        FilmeOut filme = toFilmeOutConverter.convert(filmeService.findByNome(nome).stream().findFirst()
-                .orElseThrow(() -> new ResourceNotFoundException(messagesUtils.getMessage("filme.nao.encontrado.nome",
-                        nome))));
-        return new ResponseEntity<>(filme, HttpStatus.OK);
+        FilmeOut filme = toFilmeOutConverter.convert(filmeService.findByNome(nome).get(0));
+        return ResponseEntity.ok().body(filme);
     }
 
     @ApiOperation(value = "Exibe lista de filmes disponíveis para locação", response = FilmeOut[].class)
@@ -54,6 +47,6 @@ public class FilmeController {
     @GetMapping()
     public ResponseEntity<Set<FilmeOut>> findAllAvailable() {
         Set<FilmeOut> allAvailableSet = toFilmeOutConverter.convertSet(filmeService.findAllAvailable());
-        return new ResponseEntity<>(allAvailableSet, HttpStatus.OK);
+        return ResponseEntity.ok().body(allAvailableSet);
     }
 }

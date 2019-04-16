@@ -25,13 +25,14 @@ public class FilmeService {
 
     public List<Filme> findByNome(String nome) {
         return filmeRepository.findByNome(nome)
-                .orElseThrow(() -> new ResourceNotFoundException(messagesUtils.getMessage("filme.nao.encontrado.nome",
-                        nome)));
+                .orElseThrow(() -> new ResourceNotFoundException(messagesUtils.getMessage(
+                        "filme.nao.encontrado.nome", nome)));
     }
 
     public Filme findById(Long id) {
         return filmeRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException(messagesUtils.getMessage("filme.nao.encontrado.id", id)));
+                .orElseThrow(() -> new ResourceNotFoundException(messagesUtils.getMessage(
+                        "filme.nao.encontrado.id", id)));
     }
 
     public Set<Filme> findAllAvailable() {
@@ -44,10 +45,14 @@ public class FilmeService {
         return Objects.equals(LocacaoEnum.NAO, filme.getLocado());
     }
 
+    public Filme getAvailableFilm(String nomeFilme) {
+        return findByNome(nomeFilme).stream().filter(this::isAvailable).findFirst()
+                .orElseThrow(() -> new ResourceNotFoundException(messagesUtils
+                        .getMessage("filme.nao.disponivel", nomeFilme)));
+    }
+
     public Filme rentFilm(String nomeFilme) {
-        Filme filme = findByNome(nomeFilme).stream().filter(this::isAvailable).findFirst()
-                .orElseThrow(() -> new ResourceNotFoundException(String
-                        .format("Filme '%s' não disponível.", nomeFilme)));
+        Filme filme = getAvailableFilm(nomeFilme);
         filme.setLocado(LocacaoEnum.SIM);
         filmeRepository.save(filme);
         return filme;
@@ -59,8 +64,7 @@ public class FilmeService {
             filme.setLocado(LocacaoEnum.NAO);
             filmeRepository.save(filme);
         } else {
-            throw new BusinessException(String.format("O Filme %d, %s não está alugado",
-                    idFilme, filme.getNome()));
+            throw new BusinessException(messagesUtils.getMessage("filme.nao.alugado", idFilme, filme.getNome()));
         }
     }
 }
